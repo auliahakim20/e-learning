@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Oct 09, 2019 at 02:58 PM
+-- Generation Time: Oct 18, 2019 at 12:48 PM
 -- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
 -- PHP Version: 7.2.22
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
   `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -86,22 +86,43 @@ CREATE TABLE `course` (
   `about` text DEFAULT NULL,
   `institution_id` int(11) DEFAULT NULL,
   `subject_id` int(11) DEFAULT NULL,
-  `level_id` int(11) DEFAULT NULL
+  `level_id` int(11) DEFAULT NULL,
+  `instructor_id` int(11) DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course_instructor`
+-- Table structure for table `course_lecture`
 --
 
-CREATE TABLE `course_instructor` (
+CREATE TABLE `course_lecture` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `meterial_file` varchar(100) DEFAULT NULL,
+  `assignment` text DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `enroled_course`
+--
+
+CREATE TABLE `enroled_course` (
   `id` int(11) NOT NULL,
   `course_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `final_grade` varchar(50) DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -167,6 +188,21 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m151024_072453_create_route_table', 1570628916),
 ('m170907_052038_rbac_add_index_on_auth_assignment_user_id', 1570628876),
 ('m180523_151638_rbac_updates_indexes_without_prefix', 1570628876);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `response_course`
+--
+
+CREATE TABLE `response_course` (
+  `id` int(11) NOT NULL,
+  `course_lecture_id` int(11) DEFAULT NULL,
+  `response` text DEFAULT NULL,
+  `grade` varchar(50) DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -250,13 +286,26 @@ ALTER TABLE `auth_rule`
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_course_institution` (`institution_id`),
+  ADD KEY `FK_course_subject` (`subject_id`),
+  ADD KEY `FK_course_level` (`level_id`),
+  ADD KEY `FK_course_user` (`instructor_id`);
 
 --
--- Indexes for table `course_instructor`
+-- Indexes for table `course_lecture`
 --
-ALTER TABLE `course_instructor`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `course_lecture`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_course_lecture_course` (`course_id`);
+
+--
+-- Indexes for table `enroled_course`
+--
+ALTER TABLE `enroled_course`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_enroled_course_user` (`user_id`),
+  ADD KEY `FK_enroled_course_course` (`course_id`);
 
 --
 -- Indexes for table `institution`
@@ -268,7 +317,9 @@ ALTER TABLE `institution`
 -- Indexes for table `institution_instructor`
 --
 ALTER TABLE `institution_instructor`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_institution_instructor_institution` (`institution_id`),
+  ADD KEY `FK_institution_instructor_user` (`user_id`);
 
 --
 -- Indexes for table `level`
@@ -281,6 +332,13 @@ ALTER TABLE `level`
 --
 ALTER TABLE `migration`
   ADD PRIMARY KEY (`version`);
+
+--
+-- Indexes for table `response_course`
+--
+ALTER TABLE `response_course`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_response_course_course_lecture` (`course_lecture_id`);
 
 --
 -- Indexes for table `route`
@@ -314,9 +372,15 @@ ALTER TABLE `course`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `course_instructor`
+-- AUTO_INCREMENT for table `course_lecture`
 --
-ALTER TABLE `course_instructor`
+ALTER TABLE `course_lecture`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `enroled_course`
+--
+ALTER TABLE `enroled_course`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -335,6 +399,12 @@ ALTER TABLE `institution_instructor`
 -- AUTO_INCREMENT for table `level`
 --
 ALTER TABLE `level`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `response_course`
+--
+ALTER TABLE `response_course`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -357,6 +427,7 @@ ALTER TABLE `user`
 -- Constraints for table `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
+  ADD CONSTRAINT `FK_auth_assignment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -371,6 +442,41 @@ ALTER TABLE `auth_item`
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `course`
+--
+ALTER TABLE `course`
+  ADD CONSTRAINT `FK_course_institution` FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_course_level` FOREIGN KEY (`level_id`) REFERENCES `level` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_course_subject` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_course_user` FOREIGN KEY (`instructor_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `course_lecture`
+--
+ALTER TABLE `course_lecture`
+  ADD CONSTRAINT `FK_course_lecture_course` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `enroled_course`
+--
+ALTER TABLE `enroled_course`
+  ADD CONSTRAINT `FK_enroled_course_course` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_enroled_course_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `institution_instructor`
+--
+ALTER TABLE `institution_instructor`
+  ADD CONSTRAINT `FK_institution_instructor_institution` FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_institution_instructor_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `response_course`
+--
+ALTER TABLE `response_course`
+  ADD CONSTRAINT `FK_response_course_course_lecture` FOREIGN KEY (`course_lecture_id`) REFERENCES `course_lecture` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
