@@ -30,7 +30,13 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
+                    ['label' => 'E-Learning', 'options' => ['class' => 'header']],
+                    ['label' => 'User Management','icon' => 'user','url' => '#','items' => [
+                            ['label' => 'User', 'icon' => 'file-code-o', 'url' => ['/user'],],
+                            ['label' => 'Role', 'icon' => 'dashboard', 'url' => ['/mimin/role'],],
+                            ['label' => 'Route', 'icon' => 'dashboard', 'url' => ['/mimin/route'],],
+                        ],
+                    ],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],

@@ -3,23 +3,13 @@
 namespace app\models;
 
 use Yii;
+use hscstudio\mimin\models\AuthAssignment;
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;    
 use yii\web\IdentityInterface;
 
-/**
- * This is the model class for table "user".
- *
- * @property int $id
- * @property string $username
- * @property string $auth_key
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $email
- * @property int $status
- * @property int $created_at
- * @property int $updated_at
- * @property string $verification_token
- */
-class User extends \yii\db\ActiveRecord implements IdentityInterface
+class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
@@ -27,28 +17,45 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public $new_password;
     public $repeat_password;
     public $old_password;
-
+    
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'user';
+        return '{{%user}}';
     }
-
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['username', 'password_hash', 'created_at', 'updated_at'], 'required'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email', 'verification_token'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
-            [['password_reset_token'], 'unique'],
-            [['email'], 'unique'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['username'], 'required'],
+            [['username'], 'string', 'length' => [8,16]],
+            [['username', 'email'], 'unique'],
+            [['username', 'unique'], 'message' => Yii::t('app','Username Already exists')],
+            [['email'], 'email'],
+            [['email', 'password_hash'], 'string', 'max' => 255],
+            ['status','integer'],
+            [['old_password', 'new_password', 'repeat_password'], 'string', 'min' => 6],
+            [['repeat_password'], 'compare', 'compareAttribute' => 'new_password'],
+            [['old_password', 'new_password', 'repeat_password'], 'required', 'when' => function ($model) {
+                return (!empty($model->new_password));
+            }, 'whenClient' => "function (attribute, value) {
+                return ($('#user-new_password').val().length>0);
+            }"],
         ];
     }
 
@@ -59,28 +66,22 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            // 'tree_id' => Yii::t('app', 'Tree ID'),
             'username' => Yii::t('app', 'Username'),
-            'auth_key' => Yii::t('app', 'Auth Key'),
-            'password_hash' => Yii::t('app', 'Password Hash'),
-            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'email' => Yii::t('app', 'Email'),
-            'status' => Yii::t('app', 'Status'),
+            // 'password' => Yii::t('app', 'Password'),
+            // 'token' => Yii::t('app', 'Token'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
-            'verification_token' => Yii::t('app', 'Verification Token'),
         ];
     }
 
-    public function beforeSave($insert) 
-    {
-        if ($this->isNewRecord) {
-            
-        }else{
-            
-        }
-        
-        return parent::beforeSave($insert);
-    }
+    // public function scenarios()
+    // {
+    //     $scenarios = parent::scenarios();
+    //     $scenarios['password'] = ['old_password', 'new_password', 'repeat_password'];
+    //     return $scenarios;
+    // }
+
 
     /**
      * {@inheritdoc}
@@ -89,7 +90,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
-
     /**
      * {@inheritdoc}
      */
