@@ -19,8 +19,8 @@ services:
       # - ./docker/dbdata:/var/lib/mysql
       - apps_persistent:/var/lib/mysql
     ports:
-      # - 33306:3306
-      - 3306
+      - 33306:3306
+      # - 3306
     restart: always
     environment:
       - TZ=Asia/Jakarta
