@@ -32,14 +32,18 @@
                 'items' => [
                     ['label' => 'E-Learning', 'options' => ['class' => 'header']],
                     ['label' => 'User Management','icon' => 'user','url' => '#','items' => [
-                            ['label' => 'User', 'icon' => 'file-code-o', 'url' => ['/user'],],
+                            ['label' => 'User', 'icon' => 'file-code-o', 'url' => ['user/admin/index'],],
                             ['label' => 'Role', 'icon' => 'dashboard', 'url' => ['/mimin/role'],],
                             ['label' => 'Route', 'icon' => 'dashboard', 'url' => ['/mimin/route'],],
                         ],
                     ],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Login', 'url' => ['/user/security/login'], 'visible' => Yii::$app->user->isGuest],
+                    // ['label' => 'Sign out',
+                    // 'icon' => ['logout'],
+                    // 'url' => ['/user/security/logout'],
+                    // 'linkOptions' => ['data-method' => 'post']],
                     ['label' => 'Some tools','icon' => 'share','url' => '#','items' => [
                             ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
                             ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],

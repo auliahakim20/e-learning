@@ -26,12 +26,22 @@ $config = [
         'mimin' => [
             'class' => '\hscstudio\mimin\Module',
         ],
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            // 'controllerMap' => [
+            //     'Registration' => 'app\controllers\user\RegistrationController',
+            // ],
+            'admins' => ['admin'],
+            'enableConfirmation' => 'false',
+            'enableUnconfirmedLogin' => 'true',
+        ],
     ],
     'components' => [
         'view' => [
              'theme' => [
                  'pathMap' => [
-                    '@app/views' => '@app/views/adminlte'
+                    '@app/views' => '@app/views/adminlte',
+                    '@dektrium/user/views' => '@app/views/user',
                  ],
              ],
         ],
@@ -42,10 +52,10 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
+        // 'user' => [
+        //     'identityClass' => 'app\models\User',
+        //     'enableAutoLogin' => true,
+        // ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // only support DbManager
         ],
