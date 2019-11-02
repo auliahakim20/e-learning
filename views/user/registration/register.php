@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <p class="login-box-msg">Sign in to start your session</p>
 
        <?php $form = ActiveForm::begin([
-                    'id' => 'registration-form',
+                    'id' => 'register-form',
                     'enableAjaxValidation' => true,
                     'enableClientValidation' => false,
                 ]); ?>

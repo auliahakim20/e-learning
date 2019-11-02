@@ -2,6 +2,7 @@
 namespace app\controllers\user;
 
 use dektrium\user\controllers\RegistrationController as BaseRegistrationController;
+use dektrium\user\models\RegistrationForm;
 
 class RegistrationController extends BaseRegistrationController
 {
@@ -35,7 +36,7 @@ class RegistrationController extends BaseRegistrationController
                 'module' => $this->module,
             ]);
         }
-
+        // $this->layout = 'main-login';
         return $this->render('register', [
             'model'  => $model,
             'module' => $this->module,

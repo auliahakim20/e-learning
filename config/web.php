@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'E-Learning',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -15,11 +16,13 @@ $config = [
          'class' => '\hscstudio\mimin\components\AccessControl',
          'allowActions' => [
             // add wildcard allowed action here!
-            'user/*',
-            'gii/*',
-            'site/*',
-            'debug/*',
-            'mimin/*', // only in dev mode
+            // '*',
+            // 'user/*',
+            // 'gii/*',
+            // 'site/*',
+            // 'debug/*',
+            // 'mimin/*', // only in dev mode
+            // 'subject/*',
         ],
     ],
     'modules' => [
@@ -28,9 +31,10 @@ $config = [
         ],
         'user' => [
             'class' => 'dektrium\user\Module',
-            // 'controllerMap' => [
-            //     'Registration' => 'app\controllers\user\RegistrationController',
-            // ],
+            'controllerMap' => [
+                'admin' => 'app\controllers\user\AdminController',
+                'registration' => 'app\controllers\user\RegistrationController',
+            ],
             'admins' => ['admin'],
             'enableConfirmation' => 'false',
             'enableUnconfirmedLogin' => 'true',
