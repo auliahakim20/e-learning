@@ -7,8 +7,6 @@ use app\models\User;
 
     <section class="sidebar">
         <?php if (!Yii::$app->user->isGuest): ?>
-
-
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
