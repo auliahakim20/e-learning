@@ -20,6 +20,7 @@ $config = [
             // 'user/*',
             'user/profile/*',
             'user/security/*',
+            'user/recovery/*',
             'user/registration/*',
             // 'gii/*',
             // 'site/*',
@@ -36,6 +37,7 @@ $config = [
             'class' => 'dektrium\user\Module',
             'controllerMap' => [
                 'admin' => 'app\controllers\user\AdminController',
+                'recovery' => 'app\controllers\user\RecoveryController',
                 'registration' => 'app\controllers\user\RegistrationController',
             ],
             'modelMap' => [
