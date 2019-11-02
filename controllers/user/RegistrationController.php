@@ -3,7 +3,7 @@ namespace app\controllers\user;
 
 use dektrium\user\controllers\RegistrationController as BaseRegistrationController;
 use dektrium\user\models\RegistrationForm;
-
+use Yii;
 class RegistrationController extends BaseRegistrationController
 {
      /**
@@ -31,11 +31,14 @@ class RegistrationController extends BaseRegistrationController
         if ($model->load(\Yii::$app->request->post()) && $model->register()) {
             $this->trigger(self::EVENT_AFTER_REGISTER, $event);
 
-            return $this->render('/message', [
-                'title'  => \Yii::t('user', 'Your account has been created'),
-                'module' => $this->module,
-            ]);
+            // return $this->render('/message', [
+            //     'title'  => \Yii::t('user', 'Your account has been created'),
+            //     'module' => $this->module,
+            // ]);
+            // Yii::$app->session->setFlash('success', 'Your account has been created Check Email Now');
+            return $this->redirect(['/user/login']);
         }
+
         // $this->layout = 'main-login';
         return $this->render('register', [
             'model'  => $model,
