@@ -56,10 +56,11 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        // 'user' => [
-        //     'identityClass' => 'app\models\User',
-        //     'enableAutoLogin' => true,
-        // ],
+        'user' => [
+            'identityClass' => 'app\models\User',
+            // 'identityClass' => 'dektrium\user\models\Profile',
+            'enableAutoLogin' => true,
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // only support DbManager
         ],

@@ -1,4 +1,6 @@
 <?php
+use app\models\User;
+use dektrium\user\models\Profile;
 use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
@@ -238,7 +240,7 @@ use yii\helpers\Html;
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs"><?= Profile::findOne(Yii::$app->user->id)->name ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -247,12 +249,12 @@ use yii\helpers\Html;
                                      alt="User Image"/>
 
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                    <?= Profile::findOne(Yii::$app->user->id)->name ?> - <?= Profile::findOne(Yii::$app->user->id)->location ?>
+                                    <small><?= Yii::t('user', 'Regiserd {0, date, MMMM dd, YYYY HH:mm}', [User::findOne(Yii::$app->user->id)->created_at]) ?></small>
                                 </p>
                             </li>
                             <!-- Menu Body -->
-                            <li class="user-body">
+                           <!--  <li class="user-body">
                                 <div class="col-xs-4 text-center">
                                     <a href="#">Followers</a>
                                 </div>
@@ -262,11 +264,16 @@ use yii\helpers\Html;
                                 <div class="col-xs-4 text-center">
                                     <a href="#">Friends</a>
                                 </div>
-                            </li>
+                            </li> -->
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <!-- <a href="" class="btn btn-default btn-flat">Profile</a> -->
+                                    <?= Html::a(
+                                        'Profile',
+                                        ['/user/profile'],
+                                        ['data-method' => 'GET', 'class' => 'btn btn-default btn-flat']
+                                    ) ?>
                                 </div>
                                 <div class="pull-right">
                                     <?= Html::a(

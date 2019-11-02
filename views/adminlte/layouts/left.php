@@ -42,9 +42,6 @@
                         ['label' => 'Route', 'icon' => 'dashboard', 'url' => ['/mimin/route'],],
                     ],
                 ],
-                ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                // ['label' => 'Login', 'url' => ['/user/security/login'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => 'Some tools','icon' => 'share','url' => '#','items' => [
                         ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
                         ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
