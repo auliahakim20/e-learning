@@ -69,4 +69,29 @@ class AdminController extends BaseAdminController
             'user' => $user,
         ]);
     }
+
+        /**
+     * Confirms the User.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function actionConfirm($id)
+    {
+        $model = $this->findModel($id);
+        $event = $this->getUserEvent($model);
+
+        $this->trigger(self::EVENT_BEFORE_CONFIRM, $event);
+        $model->confirm();
+        $this->trigger(self::EVENT_AFTER_CONFIRM, $event);
+        $authAssignment2 = new AuthAssignment(['user_id' => $id,]);
+        $authAssignment2->item_name = 'Member';
+        $authAssignment2->created_at = time();
+        $authAssignment2->save();
+
+        \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'User has been confirmed'));
+
+        return $this->redirect(Url::previous('actions-redirect'));
+    }
 }
