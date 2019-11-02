@@ -18,6 +18,9 @@ $config = [
             // add wildcard allowed action here!
             // '*',
             // 'user/*',
+            'user/profile/*',
+            'user/security/*',
+            'user/registration/*',
             // 'gii/*',
             // 'site/*',
             // 'debug/*',
@@ -35,9 +38,12 @@ $config = [
                 'admin' => 'app\controllers\user\AdminController',
                 'registration' => 'app\controllers\user\RegistrationController',
             ],
+            'modelMap' => [
+                'User' => 'app\models\User',
+            ],
             'admins' => ['admin'],
             'enableConfirmation' => 'false',
-            'enableUnconfirmedLogin' => 'true',
+            // 'enableUnconfirmedLogin' => 'true',
         ],
     ],
     'components' => [

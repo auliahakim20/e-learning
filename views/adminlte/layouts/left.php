@@ -1,7 +1,14 @@
+<?php 
+use app\models\User;
+// use dektrium\user\models\User;
+
+ ?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
         <?php if (!Yii::$app->user->isGuest): ?>
+
+
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
@@ -33,13 +40,18 @@
                 ['label' => 'E-Learning', 'options' => ['class' => 'header']],
                 ['label' => 'User Management','icon' => 'user','url' => '#','items' => [
                         ['label' => 'User', 'icon' => 'users', 'url' => '#','items' => [
-                                ['label' => 'Manage', 'icon' => 'users', 'url' => ['/user/admin/index'],],
+                                ['label' => 'Manage', 'icon' => 'users', 'url' => ['/user/admin/index'],'visible' => User::findOne(Yii::$app->user->id)->isAdmin,],
                                 ['label' => 'Account', 'icon' => 'user', 'url' => ['/user/settings/account'],],
                                 ['label' => 'Profile', 'icon' => 'user-o', 'url' => ['/user/settings/profile'],],
                             ],
                         ],
                         ['label' => 'Role', 'icon' => 'dashboard', 'url' => ['/mimin/role'],],
                         ['label' => 'Route', 'icon' => 'dashboard', 'url' => ['/mimin/route'],],
+                    ],
+                ],
+                ['label' => 'Courses','icon' => 'books','url' => '#','items' => [
+                        ['label' => 'Subject', 'icon' => 'file-code-o', 'url' => ['/subject'],],
+                        // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
                     ],
                 ],
                 ['label' => 'Some tools','icon' => 'share','url' => '#','items' => [
