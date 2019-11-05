@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Nov 01, 2019 at 01:39 PM
+-- Generation Time: Nov 05, 2019 at 11:49 AM
 -- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
 -- PHP Version: 7.2.22
 
@@ -34,6 +34,15 @@ CREATE TABLE `auth_assignment` (
   `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `auth_assignment`
+--
+
+INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('Member', 2, 1572675180),
+('Member', 10, 1572680106),
+('Sysadmin', 1, 1572659722);
+
 -- --------------------------------------------------------
 
 --
@@ -50,6 +59,23 @@ CREATE TABLE `auth_item` (
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `auth_item`
+--
+
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('/*', 2, NULL, NULL, NULL, 1572617269, 1572617269),
+('/site/*', 2, NULL, NULL, NULL, 1572674933, 1572674933),
+('/subject/*', 2, NULL, NULL, NULL, 1572675115, 1572675115),
+('/user/admin/*', 2, NULL, NULL, NULL, 1572674899, 1572674899),
+('/user/profile/*', 2, NULL, NULL, NULL, 1572674901, 1572674901),
+('/user/recovery/*', 2, NULL, NULL, NULL, 1572674902, 1572674902),
+('/user/registration/*', 2, NULL, NULL, NULL, 1572674903, 1572674903),
+('/user/security/*', 2, NULL, NULL, NULL, 1572674903, 1572674903),
+('/user/settings/*', 2, NULL, NULL, NULL, 1572674904, 1572674904),
+('Member', 1, NULL, NULL, NULL, 1572674892, 1572675631),
+('Sysadmin', 1, NULL, NULL, NULL, 1572617267, 1572665245);
+
 -- --------------------------------------------------------
 
 --
@@ -60,6 +86,16 @@ CREATE TABLE `auth_item_child` (
   `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `auth_item_child`
+--
+
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('Member', '/site/*'),
+('Member', '/subject/*'),
+('Member', '/user/settings/*'),
+('Sysadmin', '/*');
 
 -- --------------------------------------------------------
 
@@ -224,7 +260,9 @@ CREATE TABLE `profile` (
 --
 
 INSERT INTO `profile` (`user_id`, `name`, `public_email`, `gravatar_email`, `gravatar_id`, `location`, `website`, `bio`, `timezone`) VALUES
-(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 'Administrator', 'mail@e-learning.com', '', 'd41d8cd98f00b204e9800998ecf8427e', 'Semarang', 'http://e-learning.com', '', 'Asia/Jakarta'),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -304,6 +342,12 @@ INSERT INTO `route` (`name`, `alias`, `type`, `status`) VALUES
 ('/site/contact', 'contact', 'site', 1),
 ('/site/error', 'error', 'site', 1),
 ('/site/index', 'index', 'site', 1),
+('/subject/*', '*', 'subject', 1),
+('/subject/create', 'create', 'subject', 1),
+('/subject/delete', 'delete', 'subject', 1),
+('/subject/index', 'index', 'subject', 1),
+('/subject/update', 'update', 'subject', 1),
+('/subject/view', 'view', 'subject', 1),
 ('/user/*', '*', 'user', 1),
 ('/user/admin/*', '*', 'user/admin', 1),
 ('/user/admin/assignments', 'assignments', 'user/admin', 1),
@@ -311,7 +355,7 @@ INSERT INTO `route` (`name`, `alias`, `type`, `status`) VALUES
 ('/user/admin/confirm', 'confirm', 'user/admin', 1),
 ('/user/admin/create', 'create', 'user/admin', 1),
 ('/user/admin/delete', 'delete', 'user/admin', 1),
-('/user/admin/index', 'index', 'user/admin', 1),
+('/user/admin/index', 'index', 'user/admin', 0),
 ('/user/admin/info', 'info', 'user/admin', 1),
 ('/user/admin/resend-password', 'resend-password', 'user/admin', 1),
 ('/user/admin/switch', 'switch', 'user/admin', 1),
@@ -395,7 +439,10 @@ CREATE TABLE `token` (
 --
 
 INSERT INTO `token` (`user_id`, `code`, `created_at`, `type`) VALUES
-(1, 'cWShCR3b_RbdZtZf7g5wPAPqIC-maX1W', 1572096302, 0);
+(1, '-ZRjsNfCGJ-dlIztAwmAYmqWbfQNI9q9', 1572678434, 1),
+(1, 'cWShCR3b_RbdZtZf7g5wPAPqIC-maX1W', 1572096302, 0),
+(2, 'CshFEvaw5_23GI7VomRdUydXuVw8Ezy0', 1572674717, 0),
+(10, 'frI3XlVWoYsTS18VnOK9nAlc6YdLlhhW', 1572680095, 0);
 
 -- --------------------------------------------------------
 
@@ -424,7 +471,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`) VALUES
-(1, 'admin', 'edyagusc@gmail.com', '$2y$10$zhgH9m9KtEHAP7UvpOiHaOkVwZNe12mjUslBauvKEyH9pL8q8Hv2e', 'Zex96X-pU8T4v6HnvKWkF5Ktp3gvD1VN', 1572096547, NULL, NULL, '172.22.0.1', 1572096302, 1572096302, 0, 1572613311);
+(1, 'admin', 'edyagusc@gmail.com', '$2y$10$zhgH9m9KtEHAP7UvpOiHaOkVwZNe12mjUslBauvKEyH9pL8q8Hv2e', 'Zex96X-pU8T4v6HnvKWkF5Ktp3gvD1VN', 1572096547, NULL, NULL, '172.22.0.1', 1572096302, 1572096302, 0, 1572954307),
+(2, 'agusedyc', 'agusedyc@gmail.com', '$2y$10$OirirT0c1ibjaya8dMJq4u41LBGmxkbp32k7mx.YRxgACwRRlWuSG', '06SyqFrKG6S15TWzmiT1hO1VbdPrkJpE', 1572674864, NULL, NULL, '172.19.0.1', 1572674717, 1572674717, 0, 1572675551),
+(10, 'adiadi', 'adi@gmail.com', '$2y$10$44bDhaH8ICBLfztXo4u5Be4nuMlqyskZqsvjzq1hjlf5LcFwB3Zsy', 'bIRw9m5ByS5sJpbtGC0qz-RWRzebZMi4', 1572680106, NULL, NULL, '172.19.0.1', 1572680095, 1572680095, 0, 1572680118);
 
 --
 -- Indexes for dumped tables
@@ -619,7 +668,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
