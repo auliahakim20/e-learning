@@ -6,10 +6,9 @@ use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\db\Expression;
 
 /**
- * This is the model class for table "subject".
+ * This is the model class for table "level".
  *
  * @property int $id
  * @property string $name
@@ -19,14 +18,14 @@ use yii\db\Expression;
  *
  * @property Course[] $courses
  */
-class Subject extends \yii\db\ActiveRecord
+class Level extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'subject';
+        return 'level';
     }
 
     public function behaviors()
@@ -56,7 +55,7 @@ class Subject extends \yii\db\ActiveRecord
     {
         return [
             [['created_at', 'updated_at'], 'integer'],
-            [['name', 'slug'], 'string', 'max' => 100],
+            [['name', 'slug'], 'string', 'max' => 255],
         ];
     }
 
@@ -79,6 +78,6 @@ class Subject extends \yii\db\ActiveRecord
      */
     public function getCourses()
     {
-        return $this->hasMany(Course::className(), ['subject_id' => 'id']);
+        return $this->hasMany(Course::className(), ['level_id' => 'id']);
     }
 }

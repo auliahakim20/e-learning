@@ -49,6 +49,13 @@ $config = [
         ],
     ],
     'components' => [
+        'formatter' => [
+            'dateFormat' => 'd-M-Y H:i:s',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'IDR',
+            'locale' => 'id_ID',
+        ],
         'view' => [
              'theme' => [
                  'pathMap' => [
