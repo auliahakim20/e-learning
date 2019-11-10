@@ -47,8 +47,14 @@ use app\models\User;
                         ['label' => 'Route', 'icon' => 'dashboard', 'url' => ['/mimin/route'],],
                     ],
                 ],
-                ['label' => 'Courses','icon' => 'books','url' => '#','items' => [
+                ['label' => 'Courses','icon' => 'book','url' => '#','items' => [
                         ['label' => 'Subject', 'icon' => 'file-code-o', 'url' => ['/subject'],],
+                        // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                    ],
+                ],
+                ['label' => 'Institution','icon' => 'graduation-cap','url' => '#','items' => [
+                        ['label' => 'Institution', 'icon' => 'list-ul', 'url' => ['/institution'],],
+                        ['label' => 'Institution Instructor', 'icon' => 'list-ul', 'url' => ['/institution-instructor'],],
                         // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
                     ],
                 ],
