@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "institution_instructor".
@@ -35,6 +37,21 @@ class InstitutionInstructor extends \yii\db\ActiveRecord
             [['institution_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['institution_id'], 'exist', 'skipOnError' => true, 'targetClass' => Institution::className(), 'targetAttribute' => ['institution_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+        ];
+    }
+
+    public function behaviors()
+    {
+       return [
+
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                // 'value' => new Expression('NOW()'),
+            ], 
         ];
     }
 
