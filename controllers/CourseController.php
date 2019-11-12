@@ -3,19 +3,21 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Course;
+use app\models\CourseSearch;
 use app\models\Institution;
 use app\models\InstitutionInstructor;
+use app\models\Level;
 use dektrium\user\models\User;
-use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * InstitutionController implements the CRUD actions for Institution model.
+ * CourseController implements the CRUD actions for Course model.
  */
-class InstitutionController extends Controller
+class CourseController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -33,66 +35,45 @@ class InstitutionController extends Controller
     }
 
     /**
-     * Lists all Institution models.
+     * Lists all Course models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Institution::find(),
-        ]);
+        $searchModel = new CourseSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Institution model.
+     * Displays a single Course model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => InstitutionInstructor::find()->where(['institution_id'=>$id]),
-        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider,
-
-        ]);
-    }
-
-    public function actionInstructor($id)
-    {
-        $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username');
-        $model = new InstitutionInstructor();
-
-        if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) {
-            $model->institution_id = $id;
-            // echo '<pre>';
-            // print_r(Yii::$app->request->post());
-            // echo '</pre>';
-            return ($model->save()) ? $this->redirect(['view', 'id' => $id]) : null;
-            // return $this->redirect(['view', 'id' => $model->id]);
-        }
-        return $this->render('_formInstructor', [
-            // 'model' => $this->findModel($id),
-            'model' => $model,
-            'list_user' => $list_user,
         ]);
     }
 
     /**
-     * Creates a new Institution model.
+     * Creates a new Course model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Institution();
+        $list_institution = ArrayHelper::map(Institution::find()->asArray()->all(), 'id', 'name');
+        $list_instructor = ArrayHelper::map(InstitutionInstructor::find()->asArray()->all(), 'id', 'user.username');
+        $list_level = ArrayHelper::map(Level::find()->asArray()->all(), 'id', 'name');
+        $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username');
+        $model = new Course();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -100,11 +81,15 @@ class InstitutionController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'list_institution' => $list_institution,
+            'list_instructor' => $list_instructor,
+            'list_level' => $list_level,
+            'list_user' => $list_user,
         ]);
     }
 
     /**
-     * Updates an existing Institution model.
+     * Updates an existing Course model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -124,7 +109,7 @@ class InstitutionController extends Controller
     }
 
     /**
-     * Deletes an existing Institution model.
+     * Deletes an existing Course model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -138,18 +123,18 @@ class InstitutionController extends Controller
     }
 
     /**
-     * Finds the Institution model based on its primary key value.
+     * Finds the Course model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Institution the loaded model
+     * @return Course the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Institution::findOne($id)) !== null) {
+        if (($model = Course::findOne($id)) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

@@ -48,13 +48,14 @@ use app\models\User;
                     ],
                 ],
                 ['label' => 'Courses','icon' => 'book','url' => '#','items' => [
+                        ['label' => 'Course', 'icon' => 'users', 'url' => ['/course/index'],],
                         ['label' => 'Subject', 'icon' => 'file-code-o', 'url' => ['/subject/index'],],
                         ['label' => 'Level', 'icon' => 'list-ol', 'url' => ['/level/index'],],
                     ],
                 ],
                 ['label' => 'Institution','icon' => 'graduation-cap','url' => '#','items' => [
                         ['label' => 'Institution', 'icon' => 'list-ul', 'url' => ['/institution/index'],],
-                        ['label' => 'Institution Instructor', 'icon' => 'list-ul', 'url' => ['/institution-instructor/index'],],
+                        // ['label' => 'Institution Instructor', 'icon' => 'list-ul', 'url' => ['/institution-instructor/index'],],
                         // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
                     ],
                 ],
