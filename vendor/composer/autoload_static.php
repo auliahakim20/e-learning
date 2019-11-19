@@ -72,6 +72,10 @@ class ComposerStaticInit86b36dee1a45e7980c1503f0877d65a8
         array (
             'hscstudio\\mimin\\' => 16,
         ),
+        'f' => 
+        array (
+            'froala\\froalaeditor\\' => 20,
+        ),
         'd' => 
         array (
             'dmstr\\' => 6,
@@ -276,6 +280,10 @@ class ComposerStaticInit86b36dee1a45e7980c1503f0877d65a8
         'hscstudio\\mimin\\' => 
         array (
             0 => __DIR__ . '/..' . '/hscstudio/yii2-mimin',
+        ),
+        'froala\\froalaeditor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/froala/yii2-froala-editor/src',
         ),
         'dmstr\\' => 
         array (

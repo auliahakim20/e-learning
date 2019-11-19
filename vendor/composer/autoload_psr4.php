@@ -40,6 +40,7 @@ return array(
     'kartik\\alert\\' => array($vendorDir . '/kartik-v/yii2-widget-alert'),
     'kartik\\affix\\' => array($vendorDir . '/kartik-v/yii2-widget-affix'),
     'hscstudio\\mimin\\' => array($vendorDir . '/hscstudio/yii2-mimin'),
+    'froala\\froalaeditor\\' => array($vendorDir . '/froala/yii2-froala-editor/src'),
     'dmstr\\' => array($vendorDir . '/dmstr/yii2-adminlte-asset'),
     'dektrium\\user\\' => array($vendorDir . '/dektrium/yii2-user'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
