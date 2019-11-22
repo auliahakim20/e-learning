@@ -4,8 +4,8 @@ deployment:
     - export DEPLOYPATH=/home/adaptive/public_html/
     # - /bin/cp index.html $DEPLOYPATH
     # - /bin/cp style.css $DEPLOYPATH
-    - /bin/cp -R assets $DEPLOYPATH
-    - /bin/cp -R commans $DEPLOYPATH
+    # - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp -R commands $DEPLOYPATH
     - /bin/cp -R config $DEPLOYPATH
     - /bin/cp -R controllers $DEPLOYPATH
     - /bin/cp -R database $DEPLOYPATH
