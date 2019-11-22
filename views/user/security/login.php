@@ -15,7 +15,7 @@ $this->title = 'Sign In';
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>Admin</b>LTE</a>
+        <a href="#"><b>Adaptive</b>E-Learning</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
