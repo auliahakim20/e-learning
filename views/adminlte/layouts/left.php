@@ -37,11 +37,22 @@ use app\models\User;
         
         <?php 
         use hscstudio\mimin\components\Mimin;
+        if (!Yii::$app->user->isGuest) {
+            // Tidak guest/Login
+            if (User::findOne(Yii::$app->user->id)->isAdmin) {
+                // Adalah Admin
+                $visibilitas = true;
+            }else{
+                $visibilitas = false;
+            }
+        }else{
+            $visibilitas = false;
+        }
         $menuItems = [
                 ['label' => 'E-Learning', 'options' => ['class' => 'header']],
                 ['label' => 'User Management','icon' => 'user','url' => '#','items' => [
                         ['label' => 'User', 'icon' => 'users', 'url' => '#','items' => [
-                                ['label' => 'Manage', 'icon' => 'users', 'url' => ['/user/admin/index'],'visible' => User::findOne(Yii::$app->user->id)->isAdmin,],
+                                ['label' => 'Manage', 'icon' => 'users', 'url' => ['/user/admin/index'],'visible' => $visibilitas,],
                                 ['label' => 'Account', 'icon' => 'user', 'url' => ['/user/settings/account'],],
                                 ['label' => 'Profile', 'icon' => 'user-o', 'url' => ['/user/settings/profile'],],
                             ],

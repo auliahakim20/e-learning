@@ -1,22 +1,7 @@
-<?php
+<?php 
+
 use yii\helpers\Html;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
-if (Yii::$app->user->isGuest) {
-    if (in_array(Yii::$app->controller->action->id, ['login','register','resend','forgot','request'])) {
-        echo $this->render(
-            'main-login',
-            ['content' => $content]
-        );    
-    }else{
-        echo $this->render(
-            'main-site',
-            ['content' => $content]
-        );
-    }
-} else {
 
     if (class_exists('backend\assets\AppAsset')) {
         backend\assets\AppAsset::register($this);
@@ -38,20 +23,14 @@ if (Yii::$app->user->isGuest) {
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> sidebar-collapse">
     <?php $this->beginBody() ?>
     <div class="wrapper">
 
         <?= $this->render(
-            'header.php',
+            'header-site.php',
             ['directoryAsset' => $directoryAsset]
         ) ?>
-
-        <?= $this->render(
-            'left.php',
-            ['directoryAsset' => $directoryAsset]
-        )
-        ?>
 
         <?= $this->render(
             'content.php',
@@ -64,4 +43,3 @@ if (Yii::$app->user->isGuest) {
     </body>
     </html>
     <?php $this->endPage() ?>
-<?php } ?>
