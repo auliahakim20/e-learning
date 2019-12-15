@@ -17,6 +17,7 @@ $config = [
          'allowActions' => [
             // add wildcard allowed action here!
             // '*',
+            // 'quiz/*',
             'user/*',
             'user/profile/*',
             'user/security/*',
@@ -30,6 +31,9 @@ $config = [
         ],
     ],
     'modules' => [
+        'quiz' => [
+            'class' => 'app\modules\quiz\Quiz',
+        ],  
         'mimin' => [
             'class' => '\hscstudio\mimin\Module',
         ],
