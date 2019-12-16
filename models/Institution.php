@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -33,7 +34,11 @@ class Institution extends \yii\db\ActiveRecord
     public function behaviors()
     {
        return [
-
+            'blameable' => [
+                  'class' => BlameableBehavior::className(),
+                  'createdByAttribute' => 'created_by',
+                  'updatedByAttribute' => 'updated_by',
+            ],
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
@@ -57,7 +62,7 @@ class Institution extends \yii\db\ActiveRecord
     {
         return [
             [['description'], 'string'],
-            [['created_at', 'updated_at'], 'integer'],
+            [['created_by','updated_by','created_at', 'updated_at'], 'integer'],
             [['name', 'slug'], 'string', 'max' => 255],
         ];
     }
