@@ -41,6 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     <br>
     <h3>Instructors</h3>
+    <?php 
+    // $url = str_replace("institution", "institution-instructor", $url);
+     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -52,7 +55,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at:datetime',
             // 'updated_at:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            // ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function($url, $model) {
+                    return Html::a('<span class="btn btn-sm btn-danger"><b class="fa fa-trash"></b></span>', 
+                        ['delete', 'id' => $model['id']], 
+                        [
+                            'title' => 'Delete', 
+                            'class' => '', 
+                            'data' => [
+                                'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.', 
+                                'method' => 'post', 
+                                'data-pjax' => false
+                            ],
+                        ]);
+                    }
+                ],
+            ],
         ],
     ]); ?>
 
