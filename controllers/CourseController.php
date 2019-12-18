@@ -4,12 +4,16 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Course;
+use app\models\CourseLecture;
 use app\models\CourseSearch;
 use app\models\Institution;
 use app\models\InstitutionInstructor;
 use app\models\Level;
+use app\models\QuizCategory;
 use app\models\Subject;
+use app\models\QuizQuestion;
 use dektrium\user\models\User;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -58,8 +62,12 @@ class CourseController extends Controller
      */
     public function actionView($id)
     {
+        $dataProvider = new ActiveDataProvider([ 
+           'query' => CourseLecture::find()->where(['course_id'=>$id]), 
+        ]); 
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -148,6 +156,106 @@ class CourseController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionDeleteLecture($id)
+    {
+        // $this->findModel($id)->delete();
+        $lecture = CourseLecture::findOne($id)->delete();
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionCreateLecture($id)
+    {
+        // $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username'); 
+        $model = new CourseLecture();
+
+        if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) { 
+           $model->course_id = $id; 
+           // echo '<pre>'; 
+           // print_r(Yii::$app->request->post()); 
+           // echo '</pre>'; 
+           return ($model->save()) ? $this->redirect(['view', 'id' => $id]) : null; 
+           // return $this->redirect(['view', 'id' => $model->id]); 
+        } 
+        return $this->render('_formLecture', [ 
+           // 'model' => $this->findModel($id), 
+           'model' => $model, 
+           // 'list_user' => $list_user, 
+        ]);
+    }
+
+    public function actionUpdateLecture($id)
+    {
+        // $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username'); 
+        $model = CourseLecture::findOne($id);
+
+        if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) { 
+           $model->course_id = $id; 
+           // echo '<pre>'; 
+           // print_r(Yii::$app->request->post()); 
+           // echo '</pre>'; 
+           return ($model->save()) ? $this->redirect(['view', 'id' => $id]) : null; 
+           // return $this->redirect(['view', 'id' => $model->id]); 
+        } 
+        return $this->render('_formLecture', [ 
+           // 'model' => $this->findModel($id), 
+           'model' => $model, 
+           // 'list_user' => $list_user, 
+        ]);
+    }
+
+    public function actionViewLecture($id)
+    {
+        // $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username'); 
+
+        $dataProvider = new ActiveDataProvider([ 
+           'query' => QuizQuestion::find()->where(['category_id'=>QuizCategory::find()->where(['lecture_id'=>$id])->one()->id]), 
+        ]); 
+        return $this->render('viewLecture', [
+            'model' => CourseLecture::findOne($id),
+            'modelQuiz' => QuizCategory::find()->where(['lecture_id'=>$id])->one(),
+            'dataProvider' => $dataProvider,
+        ]);
+
+    }
+
+    public function actionCreateQuiz($id)
+    {
+
+        $model = new QuizCategory();
+
+        if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) { 
+           $model->lecture_id = $id; 
+           // echo '<pre>'; 
+           // print_r(Yii::$app->request->post()); 
+           // echo '</pre>'; 
+           return ($model->save()) ?  $this->redirect(['view-lecture', 'id' => $id]) : null; 
+        } 
+        return $this->render('_formQuiz', [ 
+           // 'model' => $this->findModel($id), 
+           'model' => $model, 
+           // 'list_user' => $list_user, 
+        ]);
+    }
+
+    public function actionCreateQuestion($id)
+    {
+         $model = new QuizQuestion();
+
+        if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) { 
+           $model->category_id = QuizCategory::find()->where(['lecture_id'=>$id])->one()->id; 
+           // echo '<pre>'; 
+           // print_r(Yii::$app->request->post()); 
+           // echo '</pre>'; 
+           return ($model->save()) ? $this->redirect(['view-lecture', 'id' => $id]) : null; 
+        } 
+        return $this->render('_formQuestion', [ 
+           // 'model' => $this->findModel($id), 
+           'model' => $model, 
+           // 'list_user' => $list_user, 
+        ]);
     }
 
     /**

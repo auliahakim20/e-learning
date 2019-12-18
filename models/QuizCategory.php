@@ -24,7 +24,7 @@ class QuizCategory extends BaseQuizCategory
 		// will receive user inputs.
 		return [
 			[['name'],'string'],
-			[['created_by','updated_by'],'integer'],
+			[['created_by','updated_by','lecture_id'],'integer'],
 		];
 	}
 
@@ -36,9 +36,18 @@ class QuizCategory extends BaseQuizCategory
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'lecture_id' => 'Material',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
         ];
+    }
+
+     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLecture()
+    {
+        return $this->hasOne(CourseLecture::className(), ['id' => 'lecture_id']);
     }
 
      /**

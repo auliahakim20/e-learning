@@ -62,14 +62,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'delete' => function($url, $model) {
                     return Html::a('<span class="btn btn-sm btn-danger"><b class="fa fa-trash"></b></span>', 
-                        ['delete', 'id' => $model['id']], 
+                        ['institution-instructor/delete', 'id' => $model['id']], 
                         [
                             'title' => 'Delete', 
-                            'class' => '', 
+                            'class' => 'btn-danger', 
                             'data' => [
                                 'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.', 
                                 'method' => 'post', 
-                                'data-pjax' => false
                             ],
                         ]);
                     }

@@ -17,14 +17,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('app', 'Back'), ['view', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+        <!-- <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
-        ]) ?>
+        ]) ?> -->
     </p>
 
     <?= DetailView::widget([
@@ -32,22 +32,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title',
-            'about:ntext',
-            'institution.name',
-            'subject.name',
-            'level.name',
+            'description:ntext',
+            // 'institution.name',
+            // 'subject.name',
+            // 'level.name',
             // 'instructor_id',
             'created_at:datetime',
             'updated_at:datetime',
         ],
     ]) ?>
     <br>
-    <h3>Material</h3>
-    <?= Html::a('Add Material', ['create-lecture', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
+    <h3>Quiz</h3>
+    <?= Html::a('Add Quiz Title', ['create-quiz', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     <br>
-    <?php 
-    // $url = str_replace("institution", "institution-instructor", $url);
-     ?>
+    <?= DetailView::widget([
+        'model' => $modelQuiz,
+        'attributes' => [
+            // 'id',
+            'name',
+            // 'description:ntext',
+            // 'institution.name',
+            // 'subject.name',
+            // 'level.name',
+            // 'instructor_id',
+            // 'created_at:datetime',
+            // 'updated_at:datetime',
+        ],
+    ]) ?>
+    <?= Html::a('Add Question', ['create-question', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <br>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -55,18 +68,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
             // 'id',
             'title',
-            'description',
+            'answer',
             // 'created_at:datetime',
             // 'updated_at:datetime',
 
             // ['class' => 'yii\grid\ActionColumn'],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view-lecture} {update-lecture} {delete-lecture} ',
+                'template' => '{create-quiz} {create-question} {delete-question}',
                 'buttons' => [
-                    'delete-lecture' => function($url,$lecture) {
+                    'delete-question' => function($url,$lecture) {
                     return Html::a('<span class="btn btn-sm btn-danger"><b class="fa fa-trash"></b></span>', 
-                        ['delete-lecture', 'id' => $lecture['id']], 
+                        ['delete-question', 'id' => $lecture['id']], 
                         [
                             'title' => 'Delete', 
                             'class' => 'btn-danger', 
@@ -76,14 +89,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ]);
                     },
-                    'update-lecture' => function($url,$lecture) {
+                    // 'create-quiz' => function($url,$lecture) {
+                    // return Html::a('<span class="btn btn-sm btn-primary"><b class="fa fa-plus"></b></span>', 
+                    //     ['create-quiz', 'id' => $lecture['id']]);
+                    // },
+                    'edit-question' => function($url,$lecture) {
                     return Html::a('<span class="btn btn-sm btn-warning"><b class="fa fa-pencil"></b></span>', 
-                        ['update-lecture', 'id' => $lecture['id']]);
-                    },
-                    'view-lecture' => function($url,$lecture) {
-                    return Html::a('<span class="btn btn-sm btn-primary"><b class="fa fa-eye"></b></span>', 
-                        ['view-lecture', 'id' => $lecture['id']]);
+                        ['create-question', 'id' => $lecture['id']]);
                     }
+
                 ],
             ],
         ],

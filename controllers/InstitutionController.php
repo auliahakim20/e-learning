@@ -138,14 +138,6 @@ class InstitutionController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionDeleteInstructor($id)
-    {
-        // $this->findModel($id)->delete();
-        InstitutionInstructor::find()->where(['id'=>$id])->delete();
-
-        return $this->redirect(['index']);
-    }
-
     /**
      * Finds the Institution model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
