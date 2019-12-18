@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'list_instructor' => $list_instructor,
         'list_level' => $list_level,
         'list_user' => $list_user,
+        'list_subject' => $list_subject,
     ]) ?>
 
 </div>

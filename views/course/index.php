@@ -28,11 +28,35 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'title',
+            // 'title',
+            [
+                'label'=>'Title',
+                'attribute'=>'title',
+                'format'=> 'raw',
+                'value' => function($model){
+                    return Html::a($model->title,['course/view','id'=>$model->id]);
+
+                }
+            ],
             'about:ntext',
-            'institution_id',
-            'subject_id',
-            'level_id',
+            // 'institution.name',
+            [
+                'label' => 'Institution',
+                'attribute' => 'institution_id',
+                'value' => 'institution.name',
+            ],
+            // 'subject.name',
+            [
+                'label' => 'Subject',
+                'attribute' => 'subject_id',
+                'value' => 'subject.name',
+            ],
+            // 'level.name',
+            [
+                'label' => 'Level',
+                'attribute' => 'level_id',
+                'value' => 'level.name',
+            ],
             // 'instructor_id',
             'created_at:datetime',
             //'updated_at',

@@ -8,6 +8,7 @@ use app\models\CourseSearch;
 use app\models\Institution;
 use app\models\InstitutionInstructor;
 use app\models\Level;
+use app\models\Subject;
 use dektrium\user\models\User;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -69,9 +70,19 @@ class CourseController extends Controller
      */
     public function actionCreate()
     {
-        $list_institution = ArrayHelper::map(Institution::find()->asArray()->all(), 'id', 'name');
+        // ->where(['id'=>InstitutionInstructor::find()->where(['user_id'=>Yii::$app->user->id])->institution_id])
+        // echo '<pre>';
+        // print_r($test);
+        // echo '</pre>';
+        $active_user_institution = InstitutionInstructor::find()->where(['user_id'=>Yii::$app->user->id])->one();
+        if (!empty($active_user_institution)) {
+            $list_institution = ArrayHelper::map(Institution::find()->where(['id'=>$active_user_institution->institution_id])->asArray()->all(), 'id', 'name');    
+        }else{
+            $list_institution = ArrayHelper::map(Institution::find()->asArray()->all(), 'id', 'name');    
+        }
         $list_instructor = ArrayHelper::map(InstitutionInstructor::find()->asArray()->all(), 'id', 'user.username');
         $list_level = ArrayHelper::map(Level::find()->asArray()->all(), 'id', 'name');
+        $list_subject = ArrayHelper::map(Subject::find()->asArray()->all(), 'id', 'name');
         $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username');
         $model = new Course();
 
@@ -85,6 +96,7 @@ class CourseController extends Controller
             'list_instructor' => $list_instructor,
             'list_level' => $list_level,
             'list_user' => $list_user,
+            'list_sibject' => $list_subject,
         ]);
     }
 
@@ -97,6 +109,17 @@ class CourseController extends Controller
      */
     public function actionUpdate($id)
     {
+        $active_user_institution = InstitutionInstructor::find()->where(['user_id'=>Yii::$app->user->id])->one();
+        if (!empty($active_user_institution)) {
+            $list_institution = ArrayHelper::map(Institution::find()->where(['id'=>$active_user_institution->institution_id])->asArray()->all(), 'id', 'name');    
+        }else{
+            $list_institution = ArrayHelper::map(Institution::find()->asArray()->all(), 'id', 'name');    
+        }
+        $list_instructor = ArrayHelper::map(InstitutionInstructor::find()->asArray()->all(), 'id', 'user.username');
+        $list_subject = ArrayHelper::map(Subject::find()->asArray()->all(), 'id', 'name');
+        $list_level = ArrayHelper::map(Level::find()->asArray()->all(), 'id', 'name');
+        $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username');
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -105,6 +128,11 @@ class CourseController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'list_institution' => $list_institution,
+            'list_instructor' => $list_instructor,
+            'list_level' => $list_level,
+            'list_user' => $list_user,
+            'list_subject' => $list_subject,
         ]);
     }
 

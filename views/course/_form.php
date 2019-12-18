@@ -17,18 +17,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'about')->textarea(['rows' => 6]) ?>
 
-    <!-- <?= $form->field($model, 'institution_id')->textInput() ?> -->
-    <?= $form->field($model, 'institution_id')->widget(Select2::className(), [
-        'data' => $list_institution,
-        'options' => ['placeholder' => 'Change'],
+    <?= $form->field($model, 'subject_id')->widget(Select2::className(), [
+        'data' => $list_subject,
+        // 'options' => ['placeholder' => 'Change'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]) ?>
 
-    
+    <?= $form->field($model, 'institution_id')->widget(Select2::className(), [
+        'data' => $list_institution,
+        // 'options' => ['placeholder' => 'Change'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>
 
-    <!-- <?= $form->field($model, 'level_id')->textInput() ?> -->
     <?= $form->field($model, 'level_id')->widget(Select2::className(), [
         'data' => $list_level,
         'options' => ['placeholder' => 'Change'],
@@ -36,20 +40,6 @@ use yii\widgets\ActiveForm;
             'allowClear' => true
         ],
     ]) ?>
-
-    <!-- <?= $form->field($model, 'instructor_id')->textInput() ?> -->
-    <?= $form->field($model, 'instructor_id')->widget(Select2::className(), [
-        'data' => $list_instructor,
-        'options' => ['placeholder' => 'Change'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]) ?>
-
-
-    <!-- <?= $form->field($model, 'created_at')->textInput() ?> -->
-
-    <!-- <?= $form->field($model, 'updated_at')->textInput() ?> -->
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
