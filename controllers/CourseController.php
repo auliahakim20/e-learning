@@ -6,12 +6,13 @@ use Yii;
 use app\models\Course;
 use app\models\CourseLecture;
 use app\models\CourseSearch;
+use app\models\EnroledCourse;
 use app\models\Institution;
 use app\models\InstitutionInstructor;
 use app\models\Level;
 use app\models\QuizCategory;
-use app\models\Subject;
 use app\models\QuizQuestion;
+use app\models\Subject;
 use dektrium\user\models\User;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
@@ -71,14 +72,59 @@ class CourseController extends Controller
         ]);
     }
 
+    public function actionJoin($id)
+    {
+        
+        $model = new EnroledCourse();
+
+        // if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) { 
+           $model->user_id = Yii::$app->user->id; 
+           $model->course_id = $id; 
+           // echo '<pre>'; 
+           // print_r(Yii::$app->request->post()); 
+           // echo '</pre>'; 
+           return ($model->save()) ?  $this->redirect(['view-member', 'id' => $id]) : null; 
+        // } 
+        // return $this->render('_formQuiz', [ 
+           // 'model' => $this->findModel($id), 
+           // 'model' => $model, 
+           // 'list_user' => $list_user, 
+        // ]);
+    }
+
+
     public function actionViewMember($id)
     {
+        $enroled = EnroledCourse::find()->where(['course_id'=>$id])->andWhere(['user_id'=>Yii::$app->user->id])->one();
+        
+        // echo '<pre>';
+        // print_r(empty($enroled));
+        // echo '</pre>';
+
         $dataProvider = new ActiveDataProvider([ 
            'query' => CourseLecture::find()->where(['course_id'=>$id]), 
-        ]); 
-        return $this->render('viewMember', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider,
+        ]);
+
+        if (empty($enroled)) {
+            return $this->render('viewMember', [
+                'model' => $this->findModel($id),
+                'dataProvider' => $dataProvider,
+            ]);
+        }else{
+            return $this->render('viewCourse', [
+                'model' => $this->findModel($id),
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        
+    }
+    
+    public function actionViewMaterial($id)
+    {
+
+        return $this->render('viewMaterial', [
+            'model' => CourseLecture::findOne($id),
+            // 'dataProvider' => $dataProvider,
         ]);
     }
 
