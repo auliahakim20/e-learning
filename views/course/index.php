@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'title',
                 'format'=> 'raw',
                 'value' => function($model){
-                    return Html::a($model->title,['course/view','id'=>$model->id]);
+                    return Html::a($model->title,['course/view-member','id'=>$model->id]);
 
                 }
             ],

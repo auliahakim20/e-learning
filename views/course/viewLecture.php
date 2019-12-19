@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Back'), ['view', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+        <?= Html::a(Yii::t('app', 'Back'), ['index'], ['class' => 'btn btn-warning']) ?>
         <!-- <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     <br>
     <h3>Quiz</h3>
-    <?= Html::a('Add Quiz Title', ['create-quiz', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <!-- <?= Html::a('Add Quiz Title', ['create-quiz', 'id' => $model->id], ['class' => 'btn btn-primary']) ?> -->
     <br>
     <?= DetailView::widget([
         'model' => $modelQuiz,
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
+            // 'id',    
             'title',
             'answer',
             // 'created_at:datetime',
@@ -75,11 +75,11 @@ $this->params['breadcrumbs'][] = $this->title;
             // ['class' => 'yii\grid\ActionColumn'],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{create-quiz} {create-question} {delete-question}',
+                'template' => '{delete-question}',
                 'buttons' => [
-                    'delete-question' => function($url,$lecture) {
+                    'delete-question' => function($url,$model) {
                     return Html::a('<span class="btn btn-sm btn-danger"><b class="fa fa-trash"></b></span>', 
-                        ['delete-question', 'id' => $lecture['id']], 
+                        ['delete-question', 'key' => $model['key']], 
                         [
                             'title' => 'Delete', 
                             'class' => 'btn-danger', 

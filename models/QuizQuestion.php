@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "quiz_question".
@@ -29,14 +30,37 @@ class QuizQuestion extends \yii\db\ActiveRecord
         return 'quiz_question';
     }
 
+    public function behaviors()
+    {
+       return [
+            // 'blameable' => [
+            //       'class' => BlameableBehavior::className(),
+            //       'createdByAttribute' => 'created_by',
+            //       'updatedByAttribute' => 'updated_by',
+            // ],
+            // 'timestamp' => [
+            //     'class' => TimestampBehavior::className(),
+            //     'attributes' => [
+            //         ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+            //         ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+            //     ],
+            // ],
+            'sluggable' => [
+                    'class' => SluggableBehavior::className(),
+                    'attribute' => 'title',
+                    'slugAttribute' => 'slug',
+                ],    
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'category_id'], 'integer'],
-            [['title', 'answer', 'answer2', 'answer3', 'answer4', 'answer5', 'answer6'], 'string', 'max' => 255],
+            [['id', 'key', 'category_id'], 'integer'],
+            [['title','slug', 'answer', 'answer2', 'answer3', 'answer4', 'answer5', 'answer6'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -50,6 +74,7 @@ class QuizQuestion extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'category_id' => Yii::t('app', 'Category ID'),
             'title' => Yii::t('app', 'Title'),
+            // 'slug' => Yii::t('app', 'Slug'),
             'answer' => Yii::t('app', 'Answer'),
             'answer2' => Yii::t('app', 'Answer2'),
             'answer3' => Yii::t('app', 'Answer3'),

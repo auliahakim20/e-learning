@@ -99,4 +99,12 @@ class CourseLecture extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ResponseCourse::className(), ['course_lecture_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuiz()
+    {
+        return $this->hasOne(QuizCategory::className(), ['lecture_id' => 'id']);
+    }
 }

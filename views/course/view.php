@@ -55,14 +55,31 @@ $this->params['breadcrumbs'][] = $this->title;
 
             // 'id',
             'title',
+            // [
+            //     'label' => 'Title',
+            //     'attribute' => 'title',
+            //     'format' => 'raw',
+            //     'value' => function($model){
+            //         return Html::a($model->title,['course/view-lecture','id'=>$model->id]);
+            //     }
+            // ],
             'description',
+            // 'quiz.name',
+            [
+                'label' => 'Quiz Title',
+                // 'attribute' => 'qio',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a((isset($model->quiz)) ? $model->quiz->name : null,['course/view-lecture','id'=>$model->id]);
+                }
+            ],
             // 'created_at:datetime',
             // 'updated_at:datetime',
 
             // ['class' => 'yii\grid\ActionColumn'],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view-lecture} {update-lecture} {delete-lecture} ',
+                'template' => '{create-quiz} {delete-lecture} ',
                 'buttons' => [
                     'delete-lecture' => function($url,$lecture) {
                     return Html::a('<span class="btn btn-sm btn-danger"><b class="fa fa-trash"></b></span>', 
@@ -76,13 +93,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ]);
                     },
-                    'update-lecture' => function($url,$lecture) {
-                    return Html::a('<span class="btn btn-sm btn-warning"><b class="fa fa-pencil"></b></span>', 
-                        ['update-lecture', 'id' => $lecture['id']]);
-                    },
+                    // 'update-lecture' => function($url,$lecture) {
+                    // return Html::a('<span class="btn btn-sm btn-warning"><b class="fa fa-pencil"></b></span>', 
+                    //     ['update-lecture', 'id' => $lecture['id']]);
+                    // },
                     'view-lecture' => function($url,$lecture) {
                     return Html::a('<span class="btn btn-sm btn-primary"><b class="fa fa-eye"></b></span>', 
                         ['view-lecture', 'id' => $lecture['id']]);
+                    },
+                    'create-quiz' => function($url,$lecture) {
+                    return Html::a('<span class="btn btn-sm btn-primary"><b class="fa fa-plus"></b> Quiz Title</span>', 
+                        ['create-quiz', 'id' => $lecture['id']]);
                     }
                 ],
             ],

@@ -71,6 +71,17 @@ class CourseController extends Controller
         ]);
     }
 
+    public function actionViewMember($id)
+    {
+        $dataProvider = new ActiveDataProvider([ 
+           'query' => CourseLecture::find()->where(['course_id'=>$id]), 
+        ]); 
+        return $this->render('viewMember', [
+            'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Creates a new Course model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -186,25 +197,25 @@ class CourseController extends Controller
         ]);
     }
 
-    public function actionUpdateLecture($id)
-    {
-        // $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username'); 
-        $model = CourseLecture::findOne($id);
+    // public function actionUpdateLecture($id)
+    // {
+    //     // $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username'); 
+    //     $model = CourseLecture::findOne($id);
 
-        if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) { 
-           $model->course_id = $id; 
-           // echo '<pre>'; 
-           // print_r(Yii::$app->request->post()); 
-           // echo '</pre>'; 
-           return ($model->save()) ? $this->redirect(['view', 'id' => $id]) : null; 
-           // return $this->redirect(['view', 'id' => $model->id]); 
-        } 
-        return $this->render('_formLecture', [ 
-           // 'model' => $this->findModel($id), 
-           'model' => $model, 
-           // 'list_user' => $list_user, 
-        ]);
-    }
+    //     if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) { 
+    //        $model->course_id = $id; 
+    //        // echo '<pre>'; 
+    //        // print_r(Yii::$app->request->post()); 
+    //        // echo '</pre>'; 
+    //        return ($model->save()) ? $this->redirect(['index']) : null; 
+    //        // return $this->redirect(['view', 'id' => $model->id]); 
+    //     } 
+    //     return $this->render('_formLecture', [ 
+    //        // 'model' => $this->findModel($id), 
+    //        'model' => $model, 
+    //        // 'list_user' => $list_user, 
+    //     ]);
+    // }
 
     public function actionViewLecture($id)
     {
@@ -256,6 +267,14 @@ class CourseController extends Controller
            'model' => $model, 
            // 'list_user' => $list_user, 
         ]);
+    }
+
+    public function actionDeleteQuestion($key)
+    {
+        // $this->findModel($id)->delete();
+        $model = QuizQuestion::findOne($key)->delete();
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

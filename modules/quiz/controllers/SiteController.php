@@ -24,7 +24,7 @@ class SiteController extends Controller
     const SECONDS_PER_QUESTION = 10; // false to disable the countdown.
     const PAGE_SIZE = 5; // false for all questions in one page.
     const MINIMUM_SCORE = 90; // false to disable diploma.
-    const QUESTIONS_NUMBER = false; // false for all questions.
+    const QUESTIONS_NUMBER = true; // false for all questions.
     
     public function actionIndex()
     {                
