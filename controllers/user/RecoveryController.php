@@ -1,9 +1,10 @@
 <?php
 namespace app\controllers\user;
 
+use Yii;
 use dektrium\user\controllers\RecoveryController as BaseRecoveryController;
 use dektrium\user\models\RecoveryForm;
-use Yii;
+use dektrium\user\models\Token;
 class RecoveryController extends BaseRecoveryController
 {
     /**

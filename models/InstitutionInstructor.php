@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -34,7 +35,7 @@ class InstitutionInstructor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['institution_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
+            [['created_by','updated_by','institution_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['institution_id'], 'exist', 'skipOnError' => true, 'targetClass' => Institution::className(), 'targetAttribute' => ['institution_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -43,7 +44,11 @@ class InstitutionInstructor extends \yii\db\ActiveRecord
     public function behaviors()
     {
        return [
-
+            'blameable' => [
+                  'class' => BlameableBehavior::className(),
+                  'createdByAttribute' => 'created_by',
+                  'updatedByAttribute' => 'updated_by',
+            ],
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [

@@ -17,8 +17,9 @@ class CourseSearch extends Course
     public function rules()
     {
         return [
-            [['id', 'institution_id', 'subject_id', 'level_id', 'instructor_id', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'institution_id', 'subject_id', 'level_id', 'created_at', 'updated_at'], 'integer'],
             [['title', 'about'], 'safe'],
+            // , 'instructor_id'
         ];
     }
 
@@ -62,7 +63,7 @@ class CourseSearch extends Course
             'institution_id' => $this->institution_id,
             'subject_id' => $this->subject_id,
             'level_id' => $this->level_id,
-            'instructor_id' => $this->instructor_id,
+            // 'instructor_id' => $this->instructor_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

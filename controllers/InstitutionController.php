@@ -5,7 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Institution;
 use app\models\InstitutionInstructor;
-use dektrium\user\models\User;
+use app\models\InstitutionSearch;
+use app\models\User;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -38,11 +39,11 @@ class InstitutionController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Institution::find(),
-        ]);
+        $searchModel = new InstitutionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -55,35 +56,35 @@ class InstitutionController extends Controller
      */
     public function actionView($id)
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => InstitutionInstructor::find()->where(['institution_id'=>$id]),
-        ]);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider,
+       $dataProvider = new ActiveDataProvider([ 
+           'query' => InstitutionInstructor::find()->where(['institution_id'=>$id]), 
+       ]); 
+       return $this->render('view', [
+           'model' => $this->findModel($id),
+           'dataProvider' => $dataProvider, 
 
-        ]);
-    }
-
-    public function actionInstructor($id)
-    {
-        $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username');
-        $model = new InstitutionInstructor();
-
-        if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) {
-            $model->institution_id = $id;
-            // echo '<pre>';
-            // print_r(Yii::$app->request->post());
-            // echo '</pre>';
-            return ($model->save()) ? $this->redirect(['view', 'id' => $id]) : null;
-            // return $this->redirect(['view', 'id' => $model->id]);
-        }
-        return $this->render('_formInstructor', [
-            // 'model' => $this->findModel($id),
-            'model' => $model,
-            'list_user' => $list_user,
-        ]);
-    }
+       ]); 
+    } 
+ 
+   public function actionInstructor($id) 
+   { 
+       $list_user = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username'); 
+       $model = new InstitutionInstructor(); 
+ 
+       if ($model->load(Yii::$app->request->post()) /*&& $model->save()*/) { 
+           $model->institution_id = $id; 
+           // echo '<pre>'; 
+           // print_r(Yii::$app->request->post()); 
+           // echo '</pre>'; 
+           return ($model->save()) ? $this->redirect(['view', 'id' => $id]) : null; 
+           // return $this->redirect(['view', 'id' => $model->id]); 
+       } 
+       return $this->render('_formInstructor', [ 
+           // 'model' => $this->findModel($id), 
+           'model' => $model, 
+           'list_user' => $list_user, 
+       ]);
+   }
 
     /**
      * Creates a new Institution model.
@@ -150,6 +151,6 @@ class InstitutionController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

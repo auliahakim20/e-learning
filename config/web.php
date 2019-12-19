@@ -17,19 +17,23 @@ $config = [
          'allowActions' => [
             // add wildcard allowed action here!
             // '*',
-            // 'user/*',
+            // 'quiz/*',
+            'user/*',
             'user/profile/*',
             'user/security/*',
             'user/recovery/*',
             'user/registration/*',
             // 'gii/*',
-            // 'site/*',
+            'site/index',
             // 'debug/*',
             // 'mimin/*', // only in dev mode
             // 'subject/*',
         ],
     ],
     'modules' => [
+        'quiz' => [
+            'class' => 'app\modules\quiz\Quiz',
+        ],  
         'mimin' => [
             'class' => '\hscstudio\mimin\Module',
         ],
@@ -42,9 +46,10 @@ $config = [
             ],
             'modelMap' => [
                 'User' => 'app\models\User',
+                'RegistrationForm' => 'app\models\RegistrationForm',
             ],
             'admins' => ['admin'],
-            'enableConfirmation' => 'false',
+            'enableConfirmation' => 'true',
             // 'enableUnconfirmedLogin' => 'true',
         ],
     ],
@@ -94,7 +99,15 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => 'edyagusc@gmail.com',
+                'password' => 'cgxuosebfffbonsp',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

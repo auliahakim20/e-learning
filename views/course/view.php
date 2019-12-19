@@ -1,5 +1,6 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -32,13 +33,81 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'about:ntext',
-            'institution_id',
-            'subject_id',
-            'level_id',
-            'instructor_id',
-            'created_at',
-            'updated_at',
+            'institution.name',
+            'subject.name',
+            'level.name',
+            // 'instructor_id',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
+    <br>
+    <h3>Material</h3>
+    <?= Html::a('Add Material', ['create-lecture', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
+    <br>
+    <?php 
+    // $url = str_replace("institution", "institution-instructor", $url);
+     ?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            // 'id',
+            'title',
+            // [
+            //     'label' => 'Title',
+            //     'attribute' => 'title',
+            //     'format' => 'raw',
+            //     'value' => function($model){
+            //         return Html::a($model->title,['course/view-lecture','id'=>$model->id]);
+            //     }
+            // ],
+            'description',
+            // 'quiz.name',
+            [
+                'label' => 'Quiz Title',
+                // 'attribute' => 'qio',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a((isset($model->quiz)) ? $model->quiz->name : null,['course/view-lecture','id'=>$model->id]);
+                }
+            ],
+            // 'created_at:datetime',
+            // 'updated_at:datetime',
+
+            // ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{create-quiz} {delete-lecture} ',
+                'buttons' => [
+                    'delete-lecture' => function($url,$lecture) {
+                    return Html::a('<span class="btn btn-sm btn-danger"><b class="fa fa-trash"></b></span>', 
+                        ['delete-lecture', 'id' => $lecture['id']], 
+                        [
+                            'title' => 'Delete', 
+                            'class' => 'btn-danger', 
+                            'data' => [
+                                'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.', 
+                                'method' => 'post', 
+                            ],
+                        ]);
+                    },
+                    // 'update-lecture' => function($url,$lecture) {
+                    // return Html::a('<span class="btn btn-sm btn-warning"><b class="fa fa-pencil"></b></span>', 
+                    //     ['update-lecture', 'id' => $lecture['id']]);
+                    // },
+                    'view-lecture' => function($url,$lecture) {
+                    return Html::a('<span class="btn btn-sm btn-primary"><b class="fa fa-eye"></b></span>', 
+                        ['view-lecture', 'id' => $lecture['id']]);
+                    },
+                    'create-quiz' => function($url,$lecture) {
+                    return Html::a('<span class="btn btn-sm btn-primary"><b class="fa fa-plus"></b> Quiz Title</span>', 
+                        ['create-quiz', 'id' => $lecture['id']]);
+                    }
+                ],
+            ],
+        ],
+    ]); ?>
 
 </div>
