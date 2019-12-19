@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="course-view">
-    <?= Html::a('Join This Course', ['join', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+    <!-- <?= Html::a('Join This Course', ['join', 'id' => $model->id], ['class' => 'btn btn-success']) ?> -->
     <h1><?= Html::encode($this->title) ?></h1>
     <?= DetailView::widget([
         'model' => $model,
@@ -25,8 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'subject.name',
             'level.name',
             // 'instructor_id',
-            'created_at:datetime',
-            'updated_at:datetime',
+            // 'created_at:datetime',
+            // 'updated_at:datetime',
         ],
     ]) ?>
     <br>
@@ -42,15 +42,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'title',
-            // [
-            //     'label' => 'Title',
-            //     'attribute' => 'title',
-            //     'format' => 'raw',
-            //     'value' => function($model){
-            //         return Html::a($model->title,['course/view-lecture','id'=>$model->id]);
-            //     }
-            // ],
+            // 'title',
+            [
+                'label' => 'Title',
+                'attribute' => 'title',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a($model->title,['course/view-material','id'=>$model->id]);
+                }
+            ],
             'description',
             // 'quiz.name',
             // [
