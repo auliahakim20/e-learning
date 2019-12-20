@@ -14,7 +14,7 @@ deployment:
     - /bin/cp -R models $DEPLOYPATH
     - /bin/cp -R tests $DEPLOYPATH
     - /bin/cp -R vagrant $DEPLOYPATH
-    - /bin/mv -R vendor $DEPLOYPATH
+    - /bin/mv vendor $DEPLOYPATH
     - /bin/cp -R views $DEPLOYPATH
     - /bin/cp -R web $DEPLOYPATH
     - /bin/cp -R web/* /home/adaptive/public_html/
