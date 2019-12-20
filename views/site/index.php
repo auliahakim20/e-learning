@@ -20,7 +20,7 @@ $this->title = 'Welcome - Adaptive E-Learning System';
 
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-success">
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">Course</h3>
                 </div>
