@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'subject_id')->widget(Select2::className(), [
         'data' => $list_subject,
-        // 'options' => ['placeholder' => 'Change'],
+        'options' => ['placeholder' => 'Change'],
         'pluginOptions' => [
             'allowClear' => true
         ],
@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'institution_id')->widget(Select2::className(), [
         'data' => $list_institution,
-        // 'options' => ['placeholder' => 'Change'],
+        'options' => ['placeholder' => 'Change'],
         'pluginOptions' => [
             'allowClear' => true
         ],

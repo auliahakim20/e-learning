@@ -161,7 +161,7 @@ class CourseController extends Controller
             'list_instructor' => $list_instructor,
             'list_level' => $list_level,
             'list_user' => $list_user,
-            'list_sibject' => $list_subject,
+            'list_subject' => $list_subject,
         ]);
     }
 
