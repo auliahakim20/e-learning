@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=mariadb;dbname=apps_docker',
-    'username' => 'root',
-    'password' => 'admin_db',
+    'dsn' => 'mysql:host=localhost;dbname=adaptive_learning',
+    'username' => 'adaptive_adaptive',
+    'password' => 'ELearning-Project',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
