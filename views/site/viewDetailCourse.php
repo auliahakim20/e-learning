@@ -15,7 +15,7 @@ $this->title = 'Welcome - Adaptive E-Learning System';
 
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-success">
+            <div class="box box-success box-solid">
                 <div class="box-header with-border">
                     <?= Html::a('<span class="fa fa-arrow-circle-left fa-2x"></span>', ['/'], ['class' => '', 'style' => 'float: left; margin-right: 10px;']) ?>
                     <h3 style="padding: 5px;" class="box-title"><?= Html::encode($model->title) ?></h3>
@@ -47,7 +47,7 @@ $this->title = 'Welcome - Adaptive E-Learning System';
 
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-info">
+            <div class="box box-info box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">Material</h3>
                 </div>

@@ -11,6 +11,10 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Course;
 use app\models\CourseSearch;
+use app\models\Institution;
+use app\models\InstitutionSearch;
+use app\models\SubjectSearch;
+use hscstudio\mimin\models\AuthAssignment;
 use yii\data\ActiveDataProvider;
 use app\models\CourseLecture;
 use yii\web\NotFoundHttpException;
@@ -68,14 +72,39 @@ class SiteController extends Controller
     {
         if (Yii::$app->user->isGuest) {
 
-            // $get_course = Course::find()->joinWith(['subject','level','institution'])->all();
+            $courseTotal = Course::find()->count();
+            $searchCourseModel = new CourseSearch();
+            $dataCourseProvider = $searchCourseModel->search(Yii::$app->request->queryParams);
 
-            $searchModel = new CourseSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $institutionTotal = Institution::find()->count();
+            $searchInstitutionModel = new InstitutionSearch();
+            $dataInstitutionProvider = $searchInstitutionModel->search(Yii::$app->request->queryParams);
+
+            $searchSubjectModel = new SubjectSearch();
+            $dataSubjectProvider = $searchSubjectModel->search(Yii::$app->request->queryParams);
+
+            $lecturerTotal = AuthAssignment::find()->where(['item_name' => 'Lecture'])->count();
+            $studentTotal = AuthAssignment::find()->where(['item_name' => 'Member'])->count();
 
             return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
+                'courseModel' => [
+                    'courseTotal' => $courseTotal,
+                    'searchCourseModel' => $searchCourseModel,
+                    'dataCourseProvider' => $dataCourseProvider,
+                ],
+                'institutionModel' => [
+                    'institutionTotal' => $institutionTotal,
+                    'searchInstitutionModel' => $searchInstitutionModel,
+                    'dataInstitutionProvider' => $dataInstitutionProvider,
+                ],
+                'subjectModel' => [
+                    'searchSubjectModel' => $searchSubjectModel,
+                    'dataSubjectProvider' => $dataSubjectProvider,
+                ],
+                'userModel' => [
+                    'lecturerTotal' => $lecturerTotal,
+                    'studentTotal' => $studentTotal,
+                ]
             ]);
 
         }else{
