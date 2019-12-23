@@ -9,23 +9,25 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
 
 $this->registerJs(
     "
-        var pieChartCanvas = $('#userChart').get(0).getContext('2d')
-        var pieChart       = new Chart(pieChartCanvas)
-        var PieData        = ". BaseJson::encode($userChart)."
-        var pieOptions     = {
-          segmentShowStroke    : true,
-          segmentStrokeColor   : '#fff',
-          segmentStrokeWidth   : 2,
-          percentageInnerCutout: 50,
-          animationSteps       : 100,
-          animationEasing      : 'easeOutBounce',
-          animateRotate        : true,
-          animateScale         : false,
-          responsive           : true,
-          maintainAspectRatio  : true,
-        }
+        $(function() {
+            var pieChartCanvas = $('#userChart').get(0).getContext('2d')
+            var pieChart       = new Chart(pieChartCanvas)
+            var PieData        = ". BaseJson::encode($userChart)."
+            var pieOptions     = {
+              segmentShowStroke    : true,
+              segmentStrokeColor   : '#fff',
+              segmentStrokeWidth   : 2,
+              percentageInnerCutout: 50,
+              animationSteps       : 100,
+              animationEasing      : 'easeOutBounce',
+              animateRotate        : true,
+              animateScale         : false,
+              responsive           : true,
+              maintainAspectRatio  : true,
+            }
 
-        pieChart.Doughnut(PieData, pieOptions)
+            pieChart.Doughnut(PieData, pieOptions)
+        })
     "
 );
 
