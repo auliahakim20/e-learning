@@ -106,6 +106,12 @@ $this->title = 'Welcome - Adaptive E-Learning System';
                 	<?php Pjax::begin(); ?>
 
 				    <?= GridView::widget([
+				    	'tableOptions' => [
+						    'class' => 'table table-striped',
+						],
+						'options' => [
+						    'class' => 'table-responsive',
+						],
 				        'dataProvider' => $courseModel['dataCourseProvider'],
 				        'columns' => [
 				            ['class' => 'yii\grid\SerialColumn'],
@@ -154,6 +160,12 @@ $this->title = 'Welcome - Adaptive E-Learning System';
                 	<?php Pjax::begin(); ?>
 
 				    <?= GridView::widget([
+				    	'tableOptions' => [
+						    'class' => 'table table-striped',
+						],
+						'options' => [
+						    'class' => 'table-responsive',
+						],
 				        'dataProvider' => $institutionModel['dataInstitutionProvider'],
 				        'columns' => [
 				            ['class' => 'yii\grid\SerialColumn'],
@@ -177,6 +189,12 @@ $this->title = 'Welcome - Adaptive E-Learning System';
                 	<?php Pjax::begin(); ?>
 
 				    <?= GridView::widget([
+				    	'tableOptions' => [
+						    'class' => 'table table-striped',
+						],
+						'options' => [
+						    'class' => 'table-responsive',
+						],
 				        'dataProvider' => $subjectModel['dataSubjectProvider'],
 				        'columns' => [
 				            ['class' => 'yii\grid\SerialColumn'],
