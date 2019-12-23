@@ -14,10 +14,12 @@ use app\models\CourseSearch;
 use app\models\Institution;
 use app\models\InstitutionSearch;
 use app\models\SubjectSearch;
+use app\models\EnroledCourse;
 use hscstudio\mimin\models\AuthAssignment;
 use yii\data\ActiveDataProvider;
 use app\models\CourseLecture;
 use yii\web\NotFoundHttpException;
+use yii\helpers\ArrayHelper;
 
 class SiteController extends Controller
 {
@@ -108,7 +110,56 @@ class SiteController extends Controller
             ]);
 
         }else{
-            return $this->render('dashboard');
+
+            $dataEnroledCourseProvider = new ActiveDataProvider([
+                'query' => EnroledCourse::find()->orderBy(['created_at' => SORT_DESC]),
+                'pagination' => [
+                    'pageSize' => 5,
+                ],
+            ]);
+
+            $dataCourseProvider = new ActiveDataProvider([
+                'query' => Course::find()->orderBy(['created_at' => SORT_DESC]),
+                'pagination' => [
+                    'pageSize' => 5,
+                ],
+            ]);
+
+            $lecturerTotal = AuthAssignment::find()->where(['item_name' => 'Lecture'])->count();
+            $studentTotal = AuthAssignment::find()->where(['item_name' => 'Member'])->count();
+            $institutionTotal = AuthAssignment::find()->where(['item_name' => 'Instution'])->count();
+
+            $user_chart = [
+                [
+                    'value' => $studentTotal,
+                    'color' => '#f56954',
+                    'highlight' => '#f56954',
+                    'label' => 'Student'
+                ],
+                [
+                    'value' => $lecturerTotal,
+                    'color' => '#f39c12',
+                    'highlight' => '#f39c12',
+                    'label' => 'Lecturer'
+                ],
+                [
+                    'value' => $institutionTotal,
+                    'color' => '#00c0ef',
+                    'highlight' => '#00c0ef',
+                    'label' => 'Institution'
+                ],
+            ];
+
+            return $this->render('dashboard', 
+                [
+                    'userChart' => $user_chart,
+                    'lecturerTotal' => $lecturerTotal,
+                    'studentTotal' => $studentTotal,
+                    'institutionTotal' => $institutionTotal,
+                    'dataEnroledCourseProvider' => $dataEnroledCourseProvider,
+                    'dataCourseProvider' => $dataCourseProvider,
+                ]
+            );
         }
         
     }
