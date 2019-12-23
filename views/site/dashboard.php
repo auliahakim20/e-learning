@@ -5,7 +5,11 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Html;
 
+/* @var $this yii\web\View */
+
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/bower_components/chart.js');
+
+$this->registerJsFile($directoryAsset .'/Chart.js', ['depends' => [yii\web\JqueryAsset::className()]]);
 
 $this->registerJs(
     "
@@ -31,10 +35,11 @@ $this->registerJs(
     "
 );
 
-/* @var $this yii\web\View */
 
 $this->title = 'Dashboard - Adaptive E-Learning System';
+
 ?>
+
 <div class="site-index">
 
     <div class="body-content">
@@ -98,7 +103,6 @@ $this->title = 'Dashboard - Adaptive E-Learning System';
                 </div>
             </div>
 
-            </div>
         </div>
 
         <div class="row">
@@ -135,6 +139,12 @@ $this->title = 'Dashboard - Adaptive E-Learning System';
                         <?php Pjax::begin(); ?>
 
                         <?= GridView::widget([
+                            'tableOptions' => [
+                                'class' => 'table table-striped',
+                            ],
+                            'options' => [
+                                'class' => 'table-responsive',
+                            ],
                             'dataProvider' => $dataEnroledCourseProvider,
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
@@ -146,7 +156,7 @@ $this->title = 'Dashboard - Adaptive E-Learning System';
                                 [
                                     'label' => 'Course',
                                     'attribute' => 'course_id',
-                                    'value' => 'course.name',
+                                    'value' => 'course.title',
                                 ],
                                 'created_at:datetime'
                             ],
@@ -176,6 +186,12 @@ $this->title = 'Dashboard - Adaptive E-Learning System';
                         <?php Pjax::begin(); ?>
 
                         <?= GridView::widget([
+                            'tableOptions' => [
+                                'class' => 'table table-striped',
+                            ],
+                            'options' => [
+                                'class' => 'table-responsive',
+                            ],
                             'dataProvider' => $dataCourseProvider,
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
@@ -214,6 +230,6 @@ $this->title = 'Dashboard - Adaptive E-Learning System';
         </div>
 
     </div>
+
 </div>
 
-<script type="text/javascript" src="<?= $directoryAsset ?>/Chart.js"></script>

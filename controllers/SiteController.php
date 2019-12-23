@@ -13,6 +13,7 @@ use app\models\Course;
 use app\models\CourseSearch;
 use app\models\Institution;
 use app\models\InstitutionSearch;
+use app\models\Subject;
 use app\models\SubjectSearch;
 use app\models\EnroledCourse;
 use hscstudio\mimin\models\AuthAssignment;
@@ -74,33 +75,42 @@ class SiteController extends Controller
     {
         if (Yii::$app->user->isGuest) {
 
-            $courseTotal = Course::find()->count();
-            $searchCourseModel = new CourseSearch();
-            $dataCourseProvider = $searchCourseModel->search(Yii::$app->request->queryParams);
+            $dataCourseProvider = new ActiveDataProvider([
+                'query' => Course::find()->orderBy(['created_at' => SORT_DESC]),
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
 
             $institutionTotal = Institution::find()->count();
-            $searchInstitutionModel = new InstitutionSearch();
-            $dataInstitutionProvider = $searchInstitutionModel->search(Yii::$app->request->queryParams);
+            $dataInstitutionProvider = new ActiveDataProvider([
+                'query' => Institution::find()->orderBy(['created_at' => SORT_DESC]),
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
 
-            $searchSubjectModel = new SubjectSearch();
-            $dataSubjectProvider = $searchSubjectModel->search(Yii::$app->request->queryParams);
-
+            $dataSubjectProvider = new ActiveDataProvider([
+                'query' => Subject::find()->orderBy(['created_at' => SORT_DESC]),
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
+            
+            $courseTotal = Course::find()->count();
             $lecturerTotal = AuthAssignment::find()->where(['item_name' => 'Lecture'])->count();
             $studentTotal = AuthAssignment::find()->where(['item_name' => 'Member'])->count();
 
             return $this->render('index', [
                 'courseModel' => [
                     'courseTotal' => $courseTotal,
-                    'searchCourseModel' => $searchCourseModel,
                     'dataCourseProvider' => $dataCourseProvider,
                 ],
                 'institutionModel' => [
                     'institutionTotal' => $institutionTotal,
-                    'searchInstitutionModel' => $searchInstitutionModel,
                     'dataInstitutionProvider' => $dataInstitutionProvider,
                 ],
                 'subjectModel' => [
-                    'searchSubjectModel' => $searchSubjectModel,
                     'dataSubjectProvider' => $dataSubjectProvider,
                 ],
                 'userModel' => [
@@ -121,7 +131,7 @@ class SiteController extends Controller
             $dataCourseProvider = new ActiveDataProvider([
                 'query' => Course::find()->orderBy(['created_at' => SORT_DESC]),
                 'pagination' => [
-                    'pageSize' => 5,
+                    'pageSize' => 10,
                 ],
             ]);
 
@@ -129,7 +139,7 @@ class SiteController extends Controller
             $studentTotal = AuthAssignment::find()->where(['item_name' => 'Member'])->count();
             $institutionTotal = AuthAssignment::find()->where(['item_name' => 'Instution'])->count();
 
-            $user_chart = [
+            $userChart = [
                 [
                     'value' => $studentTotal,
                     'color' => '#f56954',
@@ -152,7 +162,7 @@ class SiteController extends Controller
 
             return $this->render('dashboard', 
                 [
-                    'userChart' => $user_chart,
+                    'userChart' => $userChart,
                     'lecturerTotal' => $lecturerTotal,
                     'studentTotal' => $studentTotal,
                     'institutionTotal' => $institutionTotal,
