@@ -24,7 +24,7 @@ $this->title = 'Welcome - Adaptive E-Learning System';
 
 	            <div class="info-box-content">
 	            	<span class="info-box-text">Student</span>
-	            	<span class="info-box-number"><?= $userModel['lecturerTotal'] ?></span>
+	            	<span class="info-box-number"><?= $userModel['studentTotal'] ?></span>
 
 		            <div class="progress">
 		                <div class="progress-bar" style="width: 100%"></div>
@@ -43,7 +43,7 @@ $this->title = 'Welcome - Adaptive E-Learning System';
 
 	            <div class="info-box-content">
 	            	<span class="info-box-text">Lecturer</span>
-	            	<span class="info-box-number"><?= $userModel['studentTotal'] ?></span>
+	            	<span class="info-box-number"><?= $userModel['lecturerTotal'] ?></span>
 
 		            <div class="progress">
 		                <div class="progress-bar" style="width: 100%"></div>
