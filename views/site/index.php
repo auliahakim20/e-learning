@@ -24,7 +24,7 @@ $this->title = 'Welcome - Adaptive E-Learning System';
 
 	            <div class="info-box-content">
 	            	<span class="info-box-text">Student</span>
-	            	<span class="info-box-number"><?= $userModel['lecturerTotal'] ?></span>
+	            	<span class="info-box-number"><?= $userModel['studentTotal'] ?></span>
 
 		            <div class="progress">
 		                <div class="progress-bar" style="width: 100%"></div>
@@ -43,7 +43,7 @@ $this->title = 'Welcome - Adaptive E-Learning System';
 
 	            <div class="info-box-content">
 	            	<span class="info-box-text">Lecturer</span>
-	            	<span class="info-box-number"><?= $userModel['studentTotal'] ?></span>
+	            	<span class="info-box-number"><?= $userModel['lecturerTotal'] ?></span>
 
 		            <div class="progress">
 		                <div class="progress-bar" style="width: 100%"></div>
@@ -106,6 +106,12 @@ $this->title = 'Welcome - Adaptive E-Learning System';
                 	<?php Pjax::begin(); ?>
 
 				    <?= GridView::widget([
+				    	'tableOptions' => [
+						    'class' => 'table table-striped',
+						],
+						'options' => [
+						    'class' => 'table-responsive',
+						],
 				        'dataProvider' => $courseModel['dataCourseProvider'],
 				        'columns' => [
 				            ['class' => 'yii\grid\SerialColumn'],
@@ -154,6 +160,12 @@ $this->title = 'Welcome - Adaptive E-Learning System';
                 	<?php Pjax::begin(); ?>
 
 				    <?= GridView::widget([
+				    	'tableOptions' => [
+						    'class' => 'table table-striped',
+						],
+						'options' => [
+						    'class' => 'table-responsive',
+						],
 				        'dataProvider' => $institutionModel['dataInstitutionProvider'],
 				        'columns' => [
 				            ['class' => 'yii\grid\SerialColumn'],
@@ -177,6 +189,12 @@ $this->title = 'Welcome - Adaptive E-Learning System';
                 	<?php Pjax::begin(); ?>
 
 				    <?= GridView::widget([
+				    	'tableOptions' => [
+						    'class' => 'table table-striped',
+						],
+						'options' => [
+						    'class' => 'table-responsive',
+						],
 				        'dataProvider' => $subjectModel['dataSubjectProvider'],
 				        'columns' => [
 				            ['class' => 'yii\grid\SerialColumn'],
