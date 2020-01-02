@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'version' => '1.0',
     'name' => 'E-Learning',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
