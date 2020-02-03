@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Dec 19, 2019 at 06:59 AM
+-- Generation Time: Feb 03, 2020 at 01:55 AM
 -- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
 -- PHP Version: 7.2.22
 
@@ -68,6 +68,10 @@ CREATE TABLE `auth_item` (
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/*', 2, NULL, NULL, NULL, 1572617269, 1572617269),
 ('/course/*', 2, NULL, NULL, NULL, 1576505149, 1576505149),
+('/course/index', 2, NULL, NULL, NULL, 1580614879, 1580614879),
+('/course/join', 2, NULL, NULL, NULL, 1580614933, 1580614933),
+('/course/view-material', 2, NULL, NULL, NULL, 1580577618, 1580577618),
+('/course/view-member', 2, NULL, NULL, NULL, 1580614885, 1580614885),
 ('/institution-instructor/*', 2, NULL, NULL, NULL, 1576503915, 1576503915),
 ('/institution/*', 2, NULL, NULL, NULL, 1576503913, 1576503913),
 ('/quiz-category/*', 2, NULL, NULL, NULL, 1576505131, 1576505131),
@@ -83,7 +87,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/user/settings/*', 2, NULL, NULL, NULL, 1572674904, 1572674904),
 ('Instution', 1, NULL, NULL, NULL, 1576401831, 1576503934),
 ('Lecture', 1, NULL, NULL, NULL, 1576503827, 1576503833),
-('Member', 1, NULL, NULL, NULL, 1572674892, 1572675631),
+('Member', 1, NULL, NULL, NULL, 1572674892, 1580614945),
 ('Sysadmin', 1, NULL, NULL, NULL, 1572617267, 1572665245);
 
 -- --------------------------------------------------------
@@ -107,7 +111,10 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Lecture', '/course/*'),
 ('Lecture', '/quiz-category/*'),
 ('Lecture', '/quiz/*'),
-('Member', '/course/*'),
+('Member', '/course/index'),
+('Member', '/course/join'),
+('Member', '/course/view-material'),
+('Member', '/course/view-member'),
 ('Member', '/quiz/*'),
 ('Member', '/quiz/site/*'),
 ('Member', '/site/*'),
@@ -177,8 +184,8 @@ CREATE TABLE `course_lecture` (
 --
 
 INSERT INTO `course_lecture` (`id`, `course_id`, `title`, `description`, `material_file`, `quiz_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Intruduction NLP', 'Intruduction NLP', 'Download Disini', NULL, NULL, 1, NULL, 1576674633),
-(3, 1, 'Materi 2', 'TEst Materi 2', '', NULL, 1, 1, 1576662508, 1576662508),
+(1, 1, 'Intruduction NLP', 'Intruduction NLP', 'Download Disini', 4, NULL, 1, NULL, 1576674633),
+(3, 1, 'Materi 2', 'TEst Materi 2', '', 5, 1, 1, 1576662508, 1576662508),
 (4, 1, 'Materi 3', 'Materi 3', 'File Materi', NULL, 1, 1, 1576729731, 1576729731);
 
 -- --------------------------------------------------------
@@ -195,6 +202,15 @@ CREATE TABLE `enroled_course` (
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `enroled_course`
+--
+
+INSERT INTO `enroled_course` (`id`, `course_id`, `user_id`, `final_grade`, `created_at`, `updated_at`) VALUES
+(2, 1, 39, NULL, 1576743701, 1576743701),
+(3, 1, 11, NULL, 1576851524, 1576851524),
+(4, 1, 1, NULL, 1580632032, 1580632032);
 
 -- --------------------------------------------------------
 
@@ -442,12 +458,20 @@ INSERT INTO `route` (`name`, `alias`, `type`, `status`) VALUES
 ('/*', '*', '', 1),
 ('/course/*', '*', 'course', 1),
 ('/course/create', 'create', 'course', 1),
+('/course/create-lecture', 'create-lecture', 'course', 1),
+('/course/create-question', 'create-question', 'course', 1),
+('/course/create-quiz', 'create-quiz', 'course', 1),
 ('/course/delete', 'delete', 'course', 1),
 ('/course/delete-lecture', 'delete-lecture', 'course', 1),
+('/course/delete-question', 'delete-question', 'course', 1),
 ('/course/index', 'index', 'course', 1),
+('/course/join', 'join', 'course', 1),
 ('/course/lecture', 'lecture', 'course', 1),
 ('/course/update', 'update', 'course', 1),
 ('/course/view', 'view', 'course', 1),
+('/course/view-lecture', 'view-lecture', 'course', 1),
+('/course/view-material', 'view-material', 'course', 1),
+('/course/view-member', 'view-member', 'course', 1),
 ('/debug/*', '*', 'debug', 1),
 ('/debug/default/*', '*', 'debug/default', 1),
 ('/debug/default/db-explain', 'db-explain', 'debug/default', 1),
@@ -523,6 +547,7 @@ INSERT INTO `route` (`name`, `alias`, `type`, `status`) VALUES
 ('/site/contact', 'contact', 'site', 1),
 ('/site/error', 'error', 'site', 1),
 ('/site/index', 'index', 'site', 1),
+('/site/view-detail-course', 'view-detail-course', 'site', 1),
 ('/subject/*', '*', 'subject', 1),
 ('/subject/create', 'create', 'subject', 1),
 ('/subject/delete', 'delete', 'subject', 1),
@@ -659,11 +684,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`) VALUES
-(1, 'admin', 'edyagusc@gmail.com', '$2y$10$INAPuvkeYguFyiGrAhzVIuJ7FgTWwsQu4q.Ki8kYy7rXTfwuH/Zg.', 'Zex96X-pU8T4v6HnvKWkF5Ktp3gvD1VN', 1572096547, NULL, NULL, '172.22.0.1', 1572096302, 1576587814, 0, 1576723904),
-(2, 'agusedyc', 'agusedyc@gmail.com', '$2y$10$OirirT0c1ibjaya8dMJq4u41LBGmxkbp32k7mx.YRxgACwRRlWuSG', '06SyqFrKG6S15TWzmiT1hO1VbdPrkJpE', 1572674864, NULL, NULL, '172.19.0.1', 1572674717, 1572674717, 0, 1576641888),
-(10, 'institusi', 'adi@gmail.com', '$2y$10$faatugwcvM7BBQQnZOr1xuvUFNYbNloKWQrg.WD1P.U.taE0ZEdTm', 'bIRw9m5ByS5sJpbtGC0qz-RWRzebZMi4', 1572680106, NULL, NULL, '172.19.0.1', 1572680095, 1576503964, 0, 1576592864),
-(11, 'tono', 'tono@gm.cc', '$2y$10$8AM02BYK6gmTD0GZutBn1.3qT7AA/LKy6i0WPY12dYV83fhtSaAGC', 'hb6dAsTn_4r9AmTAp0Hq4OK2sbDcKpdg', 1576592965, NULL, NULL, '172.18.0.1', 1574373473, 1576592993, 0, 1576678803),
-(39, 'adibudi', 'adibudi@gmail.com', '$2y$10$w.FD6siYBE.PhNTYMuVxyeYRbH6rxtQSvGErTl7yNgHVfdwwBnDbW', 'qrtYP_oN729_G4Xq6hnMRD2OI5_08igN', 1576737084, NULL, NULL, '172.18.0.1', 1576737084, 1576737095, 0, 1576737117);
+(1, 'admin', 'edyagusc@gmail.com', '$2y$10$INAPuvkeYguFyiGrAhzVIuJ7FgTWwsQu4q.Ki8kYy7rXTfwuH/Zg.', 'Zex96X-pU8T4v6HnvKWkF5Ktp3gvD1VN', 1572096547, NULL, NULL, '172.22.0.1', 1572096302, 1576587814, 0, 1580631980),
+(2, 'agusedyc', 'agusedyc@gmail.com', '$2y$10$OirirT0c1ibjaya8dMJq4u41LBGmxkbp32k7mx.YRxgACwRRlWuSG', '06SyqFrKG6S15TWzmiT1hO1VbdPrkJpE', 1572674864, NULL, NULL, '172.19.0.1', 1572674717, 1572674717, 0, 1580577128),
+(10, 'institusi', 'adi@gmail.com', '$2y$10$faatugwcvM7BBQQnZOr1xuvUFNYbNloKWQrg.WD1P.U.taE0ZEdTm', 'bIRw9m5ByS5sJpbtGC0qz-RWRzebZMi4', 1572680106, NULL, NULL, '172.19.0.1', 1572680095, 1576503964, 0, 1580577100),
+(11, 'tono', 'tono@gm.cc', '$2y$10$8AM02BYK6gmTD0GZutBn1.3qT7AA/LKy6i0WPY12dYV83fhtSaAGC', 'hb6dAsTn_4r9AmTAp0Hq4OK2sbDcKpdg', 1576592965, NULL, NULL, '172.18.0.1', 1574373473, 1576592993, 0, 1580577143),
+(39, 'adibudi', 'adibudi@gmail.com', '$2y$10$w.FD6siYBE.PhNTYMuVxyeYRbH6rxtQSvGErTl7yNgHVfdwwBnDbW', 'qrtYP_oN729_G4Xq6hnMRD2OI5_08igN', 1576737084, NULL, NULL, '172.18.0.1', 1576737084, 1576737095, 0, 1580631768);
 
 --
 -- Indexes for dumped tables
@@ -828,7 +853,7 @@ ALTER TABLE `course_lecture`
 -- AUTO_INCREMENT for table `enroled_course`
 --
 ALTER TABLE `enroled_course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `institution`
