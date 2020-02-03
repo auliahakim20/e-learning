@@ -2,10 +2,10 @@
 -- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: mariadb
--- Generation Time: Feb 03, 2020 at 01:55 AM
--- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
--- PHP Version: 7.2.22
+-- Host: localhost:3306
+-- Generation Time: Feb 03, 2020 at 09:04 AM
+-- Server version: 10.0.38-MariaDB
+-- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `apps_docker`
+-- Database: `adaptive_learning`
 --
 
 -- --------------------------------------------------------
@@ -41,8 +41,48 @@ CREATE TABLE `auth_assignment` (
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Instution', 2, 1576639057),
 ('Instution', 10, 1576592917),
+('Instution', 42, 1576803889),
+('Instution', 43, 1576803891),
+('Instution', 50, 1576803918),
+('Instution', 51, 1576803921),
 ('Lecture', 11, 1576638581),
+('Lecture', 44, 1576803894),
+('Lecture', 45, 1576803897),
+('Lecture', 52, 1576803926),
+('Lecture', 53, 1576803929),
+('Lecture', 104, 1580634922),
 ('Member', 39, 1576737101),
+('Member', 46, 1576803900),
+('Member', 47, 1576803903),
+('Member', 54, 1576803934),
+('Member', 56, 1576803938),
+('Member', 58, 1576803940),
+('Member', 64, 1576804138),
+('Member', 66, 1576804142),
+('Member', 69, 1576809070),
+('Member', 70, 1576809072),
+('Member', 71, 1576811137),
+('Member', 73, 1576811157),
+('Member', 75, 1576811166),
+('Member', 76, 1576811185),
+('Member', 77, 1576811193),
+('Member', 79, 1576811211),
+('Member', 80, 1576811221),
+('Member', 82, 1576811235),
+('Member', 83, 1576811262),
+('Member', 84, 1576811284),
+('Member', 86, 1576811294),
+('Member', 89, 1576811313),
+('Member', 91, 1576811322),
+('Member', 93, 1576811346),
+('Member', 94, 1576811355),
+('Member', 95, 1576811363),
+('Member', 97, 1576811374),
+('Member', 98, 1576811388),
+('Member', 99, 1576811399),
+('Member', 100, 1576814449),
+('Member', 102, 1576814457),
+('Member', 103, 1580634830),
 ('Sysadmin', 1, 1572675180);
 
 -- --------------------------------------------------------
@@ -54,9 +94,9 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 CREATE TABLE `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` smallint(6) NOT NULL,
-  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8_unicode_ci,
   `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `data` blob DEFAULT NULL,
+  `data` blob,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -68,10 +108,8 @@ CREATE TABLE `auth_item` (
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/*', 2, NULL, NULL, NULL, 1572617269, 1572617269),
 ('/course/*', 2, NULL, NULL, NULL, 1576505149, 1576505149),
-('/course/index', 2, NULL, NULL, NULL, 1580614879, 1580614879),
-('/course/join', 2, NULL, NULL, NULL, 1580614933, 1580614933),
-('/course/view-material', 2, NULL, NULL, NULL, 1580577618, 1580577618),
-('/course/view-member', 2, NULL, NULL, NULL, 1580614885, 1580614885),
+('/course/index', 2, NULL, NULL, NULL, 1580614588, 1580614588),
+('/course/view', 2, NULL, NULL, NULL, 1580614591, 1580614591),
 ('/institution-instructor/*', 2, NULL, NULL, NULL, 1576503915, 1576503915),
 ('/institution/*', 2, NULL, NULL, NULL, 1576503913, 1576503913),
 ('/quiz-category/*', 2, NULL, NULL, NULL, 1576505131, 1576505131),
@@ -87,7 +125,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/user/settings/*', 2, NULL, NULL, NULL, 1572674904, 1572674904),
 ('Instution', 1, NULL, NULL, NULL, 1576401831, 1576503934),
 ('Lecture', 1, NULL, NULL, NULL, 1576503827, 1576503833),
-('Member', 1, NULL, NULL, NULL, 1572674892, 1580614945),
+('Member', 1, NULL, NULL, NULL, 1572674892, 1580614597),
 ('Sysadmin', 1, NULL, NULL, NULL, 1572617267, 1572665245);
 
 -- --------------------------------------------------------
@@ -112,9 +150,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Lecture', '/quiz-category/*'),
 ('Lecture', '/quiz/*'),
 ('Member', '/course/index'),
-('Member', '/course/join'),
-('Member', '/course/view-material'),
-('Member', '/course/view-member'),
+('Member', '/course/view'),
 ('Member', '/quiz/*'),
 ('Member', '/quiz/site/*'),
 ('Member', '/site/*'),
@@ -129,7 +165,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 
 CREATE TABLE `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `data` blob DEFAULT NULL,
+  `data` blob,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -143,7 +179,7 @@ CREATE TABLE `auth_rule` (
 CREATE TABLE `course` (
   `id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `about` text DEFAULT NULL,
+  `about` text,
   `institution_id` int(11) DEFAULT NULL,
   `subject_id` int(11) DEFAULT NULL,
   `level_id` int(11) DEFAULT NULL,
@@ -158,7 +194,19 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`id`, `title`, `about`, `institution_id`, `subject_id`, `level_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Natural Language Processing', 'Natural Language Processing', 2, 1, 1, 11, 11, 1576643162, 1576643640);
+(1, 'Natural Language Processing', 'Hard to say, but easy to write? Solve your complicated life. Keep silent and enjoy to learn Natural Language Processing', 2, 1, 1, 11, 1, 1576643162, 1576922986),
+(2, 'Business Intelligence', 'Business Intelligence Program', 3, 1, 1, 1, 1, 1576921383, 1576921383),
+(3, 'Data Mining', 'Easy to do but hard to understand? Solving your problem future prediction with Data Mining way', 3, 2, 1, 1, 1, 1576921416, 1576923260),
+(4, 'Computer Vision', 'Computer Vision on Math', 3, 2, 2, 1, 1, 1576921440, 1576921440),
+(5, 'Network Engineering', 'Solve your complicated network connection with Network Engineering', 3, 2, 2, 1, 1, 1576921497, 1576923409),
+(6, 'Artificial Intelligence', 'Artificial Intelligence to clone your mind', 3, 2, 2, 1, 1, 1576921573, 1576921581),
+(7, 'PHP', 'PHP Hypertext Preprocessor.', 10, 2, 1, 1, 1, 1576922015, 1576922015),
+(8, 'Git', 'Git on your code', 10, 1, 1, 1, 1, 1576922042, 1576922042),
+(9, 'Analysis System Design', 'Analysis System Design for your blueprint', 9, 1, 1, 1, 1, 1576922126, 1576922126),
+(10, 'Soft Computing', 'Making soft from your blow computation', 11, 2, 2, 1, 1, 1576922230, 1576924295),
+(11, 'Information Retrieval', 'Maintain your complicated text structure with Information Retrieval way', 5, 1, 2, 1, 1, 1576922379, 1576923188),
+(12, 'Java', 'Learn Java for professional code', 9, 2, 2, 1, 1, 1577105721, 1577105721),
+(13, 'Ruby on Rails', 'Ruby on Rails on your mind', 7, 2, 2, 1, 1, 1577105772, 1577105772);
 
 -- --------------------------------------------------------
 
@@ -208,9 +256,10 @@ CREATE TABLE `enroled_course` (
 --
 
 INSERT INTO `enroled_course` (`id`, `course_id`, `user_id`, `final_grade`, `created_at`, `updated_at`) VALUES
-(2, 1, 39, NULL, 1576743701, 1576743701),
-(3, 1, 11, NULL, 1576851524, 1576851524),
-(4, 1, 1, NULL, 1580632032, 1580632032);
+(1, 1, 11, NULL, 1576813820, 1576813820),
+(2, 1, 1, NULL, 1576890176, 1576890176),
+(3, 11, 1, NULL, 1576924461, 1576924461),
+(4, 3, 11, NULL, 1577937202, 1577937202);
 
 -- --------------------------------------------------------
 
@@ -222,7 +271,7 @@ CREATE TABLE `institution` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `slug` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
@@ -235,7 +284,15 @@ CREATE TABLE `institution` (
 
 INSERT INTO `institution` (`id`, `name`, `slug`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (2, 'UNAKI', 'unaki', 'Universitas AKI', 10, 10, 1576504528, 1576504528),
-(3, 'Universitas Dianuswantoro', 'universitas-dianuswantoro', 'UDINUS', 2, 2, 1576639128, 1576639128);
+(3, 'Universitas Dianuswantoro', 'universitas-dianuswantoro', 'UDINUS', 2, 2, 1576639128, 1576639128),
+(4, 'UNDIP', 'undip', 'Universitas Diponegoro', 1, 1, 1576921659, 1576921659),
+(5, 'UNSRAT', 'unsrat', 'Universitas Sam Ratulangi', 1, 1, 1576921694, 1576921694),
+(6, 'UPI', 'upi', 'Universitas Pendidikan Indonesia', 1, 1, 1576921721, 1576921721),
+(7, 'UNIKOM', 'unikom', 'Universitas Komputer Indonesia', 1, 1, 1576921748, 1576921748),
+(8, 'AMIKOM', 'amikom', 'Universitas AMIKOM Yogyakarta', 1, 1, 1576921784, 1576921784),
+(9, 'OXFORD', 'oxford', 'OXFORD University', 1, 1, 1576921847, 1576921847),
+(10, 'HARVARD', 'harvard', 'HARVARD University', 1, 1, 1576921864, 1576921864),
+(11, 'UNBRA', 'unbra', 'Universitas Brawijaya', 1, 1, 1576921894, 1576921894);
 
 -- --------------------------------------------------------
 
@@ -260,7 +317,15 @@ CREATE TABLE `institution_instructor` (
 INSERT INTO `institution_instructor` (`id`, `institution_id`, `user_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (5, 2, 2, 10, 10, 1576504561, 1576504561),
 (6, 2, 11, 10, 10, 1576504691, 1576504691),
-(8, 3, 11, 2, 2, 1576639145, 1576639145);
+(8, 3, 11, 2, 2, 1576639145, 1576639145),
+(9, 4, 11, 1, 1, 1576921668, 1576921668),
+(10, 5, 43, 1, 1, 1576921702, 1576921702),
+(11, 6, 48, 1, 1, 1576921726, 1576921726),
+(12, 7, 51, 1, 1, 1576921751, 1576921751),
+(13, 8, 49, 1, 1, 1576921790, 1576921790),
+(14, 9, 2, 1, 1, 1576921850, 1576921850),
+(15, 10, 39, 1, 1, 1576921871, 1576921871),
+(16, 11, 11, 1, 1, 1576921897, 1576921897);
 
 -- --------------------------------------------------------
 
@@ -332,7 +397,7 @@ CREATE TABLE `profile` (
   `gravatar_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `location` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `bio` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bio` text COLLATE utf8_unicode_ci,
   `timezone` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -345,7 +410,66 @@ INSERT INTO `profile` (`user_id`, `name`, `public_email`, `gravatar_email`, `gra
 (2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(39, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(39, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(41, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(42, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(43, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(44, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(46, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(47, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(49, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(50, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(52, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(56, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(58, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(60, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(62, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(63, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(64, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(66, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(69, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(70, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(71, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(72, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(73, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(74, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(75, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(76, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(77, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(78, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(79, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(80, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(81, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(82, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(83, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(84, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(85, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(86, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(87, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(88, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(89, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(90, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(91, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(92, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(93, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(94, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(95, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(96, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(97, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(98, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(99, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(100, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(101, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(102, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(103, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(104, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -431,7 +555,7 @@ INSERT INTO `quiz_question` (`key`, `id`, `category_id`, `title`, `slug`, `answe
 CREATE TABLE `response_course` (
   `id` int(11) NOT NULL,
   `course_lecture_id` int(11) DEFAULT NULL,
-  `response` text DEFAULT NULL,
+  `response` text,
   `grade` varchar(50) DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
@@ -447,7 +571,7 @@ CREATE TABLE `route` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `status` smallint(6) NOT NULL DEFAULT 1
+  `status` smallint(6) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -458,20 +582,12 @@ INSERT INTO `route` (`name`, `alias`, `type`, `status`) VALUES
 ('/*', '*', '', 1),
 ('/course/*', '*', 'course', 1),
 ('/course/create', 'create', 'course', 1),
-('/course/create-lecture', 'create-lecture', 'course', 1),
-('/course/create-question', 'create-question', 'course', 1),
-('/course/create-quiz', 'create-quiz', 'course', 1),
 ('/course/delete', 'delete', 'course', 1),
 ('/course/delete-lecture', 'delete-lecture', 'course', 1),
-('/course/delete-question', 'delete-question', 'course', 1),
 ('/course/index', 'index', 'course', 1),
-('/course/join', 'join', 'course', 1),
 ('/course/lecture', 'lecture', 'course', 1),
 ('/course/update', 'update', 'course', 1),
 ('/course/view', 'view', 'course', 1),
-('/course/view-lecture', 'view-lecture', 'course', 1),
-('/course/view-material', 'view-material', 'course', 1),
-('/course/view-member', 'view-member', 'course', 1),
 ('/debug/*', '*', 'debug', 1),
 ('/debug/default/*', '*', 'debug/default', 1),
 ('/debug/default/db-explain', 'db-explain', 'debug/default', 1),
@@ -547,7 +663,6 @@ INSERT INTO `route` (`name`, `alias`, `type`, `status`) VALUES
 ('/site/contact', 'contact', 'site', 1),
 ('/site/error', 'error', 'site', 1),
 ('/site/index', 'index', 'site', 1),
-('/site/view-detail-course', 'view-detail-course', 'site', 1),
 ('/subject/*', '*', 'subject', 1),
 ('/subject/create', 'create', 'subject', 1),
 ('/subject/delete', 'delete', 'subject', 1),
@@ -606,7 +721,7 @@ CREATE TABLE `social_account` (
   `user_id` int(11) DEFAULT NULL,
   `provider` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `client_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `data` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `data` text COLLATE utf8_unicode_ci,
   `code` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -632,7 +747,8 @@ CREATE TABLE `subject` (
 --
 
 INSERT INTO `subject` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Computer Science', 'computer-science', 1573373683, 1573373759);
+(1, 'Computer Science', 'computer-science', 1573373683, 1573373759),
+(2, 'Computer Engineering', 'computer-engineering', 1576921153, 1576921153);
 
 -- --------------------------------------------------------
 
@@ -655,7 +771,64 @@ INSERT INTO `token` (`user_id`, `code`, `created_at`, `type`) VALUES
 (1, 'cWShCR3b_RbdZtZf7g5wPAPqIC-maX1W', 1572096302, 0),
 (2, 'CshFEvaw5_23GI7VomRdUydXuVw8Ezy0', 1572674717, 0),
 (10, 'frI3XlVWoYsTS18VnOK9nAlc6YdLlhhW', 1572680095, 0),
-(11, 'waZRE6a2xJrBguICHcgQlQC5DbQ6fzbg', 1574373473, 0);
+(11, 'waZRE6a2xJrBguICHcgQlQC5DbQ6fzbg', 1574373473, 0),
+(40, 'hXDSNf6S1iABifrAlNaVSkYcPlncdYIq', 1576803879, 0),
+(41, 'DpAmkZ5bRlVhHXF2Rdn2DibX8TpjK5iy', 1576803879, 0),
+(42, 'upkGMxThEswxtOlwhdm4_LozaQmlDVCA', 1576803886, 0),
+(43, 'SxewZPWmiV-7Tfx04mJf7EJz18mTEZC0', 1576803886, 0),
+(44, 'aR7RrcSiK6eMH50gKAMDmw0QuUKjC9Az', 1576803892, 0),
+(45, 'En7PFjXFM04pO3VuYW5J5DXxr03o45x7', 1576803892, 0),
+(46, 'JfUaZpfU0cbt6Vz2j2R62tGFFIAVKYRN', 1576803898, 0),
+(47, 'LVN1V96IPyz9AMG0nCwjzThXFfJjfjjj', 1576803898, 0),
+(48, 'E302_XmTTwK1BYPV33hDdG9tLbXfX_Py', 1576803909, 0),
+(49, 'fqtBjKGxsHQc1a4FntKi5Lp812HXHjSD', 1576803909, 0),
+(50, 'iCabnD14rCsvXFZv1lWbCqdZfitJ6iJS', 1576803916, 0),
+(51, '3sn8DU0TX6y3jbvCvklLvgjilyGjcU1i', 1576803916, 0),
+(52, 'IDzzXvtHa1sRinzmTIiGSXMyhTesoF6K', 1576803924, 0),
+(53, 'jRYA65L2c0ZPwACv2hKFbTxHKBQRuthr', 1576803924, 0),
+(54, 'k8v1mQ4zUeg0KVF-FghhRb0nVbqz7s-o', 1576803931, 0),
+(56, 'g2tEXjbcjL8KruL6LQb2oWFEEGJcovTP', 1576803936, 0),
+(58, 'pnTFvk4oxMrVgswGyiQ6fCpAzSkxW_Om', 1576803936, 0),
+(60, '5TabK0Ol-iU56iObdbAFWqENmQoZZss4', 1576803986, 0),
+(61, '6y_BzdMz_fRsF5Ub6qEPMTHm1R1Jas_-', 1576803991, 0),
+(62, 'm3LK729FKdCVC8UxFUZvZgRshAF6CeQr', 1576803995, 0),
+(63, '2KnTQPo44voR_a-ISn8W8v5rSDVfZaCG', 1576803999, 0),
+(64, 'y1wjv0cZ9wokbCT1kmBAqCs0afI27GRb', 1576804136, 0),
+(66, 'oU_c2qsDnWmPr03UPPL2jTb4CMiyVz1l', 1576804136, 0),
+(69, 'kEncotFNtgPl6V1yl-qXv3nFD2HKaWWE', 1576809066, 0),
+(70, 'SQngIVT9pKs_2htdfz773JTjM3rVMmHF', 1576809066, 0),
+(71, 'rKIB-DdFveclpfRxNB5uWuBMdOdH6fSW', 1576811128, 0),
+(72, 'RHZx23IbBCYgIymDrGWCO8prGGPaT4l7', 1576811128, 0),
+(73, '9JEJDRxjHKDnkhGZKTl1Fbo9E_FMimtY', 1576811153, 0),
+(74, 'MmYrQ-hjt9bWTh28M3fCuL6JErtWYOx9', 1576811155, 0),
+(75, 'aTRYTbGJ0xpg3HzV1WHz0ac_KaFwRVWn', 1576811163, 0),
+(76, 'eGsrPg99yFBEgKv3vIlhR0_EF5uVOaOX', 1576811183, 0),
+(77, 'j-vGrHbyTnnewcIeD3goXXj4Az5nnprT', 1576811188, 0),
+(78, 'Mb11ohe03RerpF16evT8AIqG0mnm1oCL', 1576811190, 0),
+(79, 'HEStjULrhDBglXj8Qm7YLWjmVbaOpqn6', 1576811208, 0),
+(80, 'fY1ATlDYzL9Q9pjXggLiJlg02VsmaWj2', 1576811219, 0),
+(81, 'pIaaHKChKcoj0J9IxMcHs0Ijkwm0_GiE', 1576811225, 0),
+(82, '9gQbyWHGxVDVGm_ksW8JS54DF96RYRLy', 1576811232, 0),
+(83, 'c-EzMWAvFyaHZiluhj5lHnf92OMkTNXr', 1576811257, 0),
+(84, 'nh7Ow7irzwDCC-LJ6LS4Uyt60TVlzubh', 1576811280, 0),
+(85, '9GraHknAn0nPpxMDv7d6RT-mGEcj5So8', 1576811285, 0),
+(86, 'CzCeFlA8noSj-yzRPZsXi00JuHBcCMyI', 1576811291, 0),
+(87, 'aOT7ePoTS36AZZ1SiE8OFOqEPJdj9kB4', 1576811294, 0),
+(88, 'DIDpStebKzqVo7eWnFc8noUjP1QeSP_c', 1576811304, 0),
+(89, 'bx5PKOVWdWu1aLuffewZ1LIRwP_nmZ97', 1576811308, 0),
+(90, 'NL3iRU5NKuS3fyIonNQAMNfLif7u0MOR', 1576811309, 0),
+(91, '3FbCUDnteFpEJbJc-HRtk1_kHfBDcdOd', 1576811319, 0),
+(92, 'tyIXQI3uSmt3xm15RfQe093wVuhfgJ25', 1576811321, 0),
+(93, 'Ky-bBtml3_4-O6UwZO7AS-fJgZeKyjB4', 1576811342, 0),
+(94, 'yb5QHKbJ7IFQNE89RwG54UYHh3hBV4yO', 1576811352, 0),
+(95, 'Nll5OAfEhaSvdXsDEEBfoPYTSQ7NgxmS', 1576811358, 0),
+(96, '_68K8n7kogCH8hHPAZx-06ShCoGeCaMO', 1576811367, 0),
+(97, 'gif02c1mjz43UcGSI1Rtt5IOz9HWdG-B', 1576811367, 0),
+(98, 'xbX-z9AWtXnDUR_q9MEztHFTut-OjZBo', 1576811383, 0),
+(99, 'AfKKLGvvafPB5xdShRxFX3MSE3B-s2r2', 1576811395, 0),
+(100, 'o_EESx8ZIAXwZQ_ZXXICfrh1hKrNQKPY', 1576814436, 0),
+(101, 'NZJGaWx53b30HACkY5DdWSRakYuIRoGj', 1576814437, 0),
+(102, 'OT2aDv0Nt6USKM2rrhJkifk65MTvlH7U', 1576814452, 0);
 
 -- --------------------------------------------------------
 
@@ -675,7 +848,7 @@ CREATE TABLE `user` (
   `registration_ip` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `flags` int(11) NOT NULL DEFAULT 0,
+  `flags` int(11) NOT NULL DEFAULT '0',
   `last_login_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -684,11 +857,70 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`) VALUES
-(1, 'admin', 'edyagusc@gmail.com', '$2y$10$INAPuvkeYguFyiGrAhzVIuJ7FgTWwsQu4q.Ki8kYy7rXTfwuH/Zg.', 'Zex96X-pU8T4v6HnvKWkF5Ktp3gvD1VN', 1572096547, NULL, NULL, '172.22.0.1', 1572096302, 1576587814, 0, 1580631980),
-(2, 'agusedyc', 'agusedyc@gmail.com', '$2y$10$OirirT0c1ibjaya8dMJq4u41LBGmxkbp32k7mx.YRxgACwRRlWuSG', '06SyqFrKG6S15TWzmiT1hO1VbdPrkJpE', 1572674864, NULL, NULL, '172.19.0.1', 1572674717, 1572674717, 0, 1580577128),
-(10, 'institusi', 'adi@gmail.com', '$2y$10$faatugwcvM7BBQQnZOr1xuvUFNYbNloKWQrg.WD1P.U.taE0ZEdTm', 'bIRw9m5ByS5sJpbtGC0qz-RWRzebZMi4', 1572680106, NULL, NULL, '172.19.0.1', 1572680095, 1576503964, 0, 1580577100),
-(11, 'tono', 'tono@gm.cc', '$2y$10$8AM02BYK6gmTD0GZutBn1.3qT7AA/LKy6i0WPY12dYV83fhtSaAGC', 'hb6dAsTn_4r9AmTAp0Hq4OK2sbDcKpdg', 1576592965, NULL, NULL, '172.18.0.1', 1574373473, 1576592993, 0, 1580577143),
-(39, 'adibudi', 'adibudi@gmail.com', '$2y$10$w.FD6siYBE.PhNTYMuVxyeYRbH6rxtQSvGErTl7yNgHVfdwwBnDbW', 'qrtYP_oN729_G4Xq6hnMRD2OI5_08igN', 1576737084, NULL, NULL, '172.18.0.1', 1576737084, 1576737095, 0, 1580631768);
+(1, 'admin', 'edyagusc@gmail.com', '$2y$10$INAPuvkeYguFyiGrAhzVIuJ7FgTWwsQu4q.Ki8kYy7rXTfwuH/Zg.', 'Zex96X-pU8T4v6HnvKWkF5Ktp3gvD1VN', 1572096547, NULL, NULL, '172.22.0.1', 1572096302, 1576587814, 0, 1580634631),
+(2, 'agusedyc', 'agusedyc@gmail.com', '$2y$10$OirirT0c1ibjaya8dMJq4u41LBGmxkbp32k7mx.YRxgACwRRlWuSG', '06SyqFrKG6S15TWzmiT1hO1VbdPrkJpE', 1572674864, NULL, NULL, '172.19.0.1', 1572674717, 1572674717, 0, 1580614520),
+(10, 'institusi', 'adi@gmail.com', '$2y$10$faatugwcvM7BBQQnZOr1xuvUFNYbNloKWQrg.WD1P.U.taE0ZEdTm', 'bIRw9m5ByS5sJpbtGC0qz-RWRzebZMi4', 1572680106, NULL, NULL, '172.19.0.1', 1572680095, 1576503964, 0, 1580634689),
+(11, 'tono', 'tono@gm.cc', '$2y$10$8AM02BYK6gmTD0GZutBn1.3qT7AA/LKy6i0WPY12dYV83fhtSaAGC', 'hb6dAsTn_4r9AmTAp0Hq4OK2sbDcKpdg', 1576592965, NULL, NULL, '172.18.0.1', 1574373473, 1576592993, 0, 1580614530),
+(39, 'adibudi', 'adibudi@gmail.com', '$2y$10$w.FD6siYBE.PhNTYMuVxyeYRbH6rxtQSvGErTl7yNgHVfdwwBnDbW', 'qrtYP_oN729_G4Xq6hnMRD2OI5_08igN', 1576737084, NULL, NULL, '172.18.0.1', 1576737084, 1576737095, 0, 1580631661),
+(40, 'vpoPcBeY', 'isdgaPTM@burpcollaborator.net', '$2y$10$sNHyIS6qe6ZIoiEj6/OB8eyl1t6zOw6x4N3pnUwuUbPoM0dgnf./S', '2Czg884QOi5b2635IZgP0Rpc7nRy5q8L', NULL, NULL, NULL, '103.107.244.18', 1576803879, 1576803879, 0, NULL),
+(41, 'KbaxDbLR', 'sJTHirci@burpcollaborator.net', '$2y$10$lRNxzm8ERcqJwLWM5K7/9ud6l6SffDv2PWxX3TLLLlfy0P74GgAvm', 'BtKpE6lryFwd67I12XLH825lM6-1LkgW', NULL, NULL, NULL, '103.107.244.18', 1576803879, 1576803879, 0, NULL),
+(42, 'eBHETXHO', 'IWBWCgYy@burpcollaborator.net', '$2y$10$k1VM24oiS.KT7agHNAOOgOcg.3ec56t34SNd5kYBRWo5Qq.K48SSC', 'g0REyHs78UPz-kwBYztRRfBm0Ra6ZNTj', NULL, NULL, NULL, '103.107.244.18', 1576803886, 1576803886, 0, NULL),
+(43, 'zEjiiwuG', 'pUVmirml@burpcollaborator.net', '$2y$10$.H9rVv287Pb5ONDnaqnsNOoZz1kF7YJsAeScflxG9L3veBXFvds5a', '5cqq1PwyOLZEjXMIJDswSV7IqE8fYQAI', NULL, NULL, NULL, '103.107.244.18', 1576803886, 1576803886, 0, NULL),
+(44, 'gojhAzyy', 'kwSErpRD@burpcollaborator.net', '$2y$10$DrviqAQ.tdZQ11rj049md.DMUjh08oBA5yYGZe/aeAxcGQZ0QNX3O', 'YdItQvUbSJI04b1uFvedF8K2CvbZn8ju', NULL, NULL, NULL, '103.107.244.18', 1576803892, 1576803892, 0, NULL),
+(45, 'tCswcism', 'kDGETZEZ@burpcollaborator.net', '$2y$10$6uNa8Dp47oHSMlaZc1gw4eAw80bfPijoH80VQfMmMTJ/2WdJmgsLO', 'zx05etJs2ZMMAQbIq3cjy4dfyYA6V5Eo', NULL, NULL, NULL, '103.107.244.18', 1576803892, 1576803892, 0, NULL),
+(46, 'VhNceBMm', 'FJuQuokI@burpcollaborator.net', '$2y$10$jJAgfgv.QN1CQKyKfdloOeNUKp6qy490rPYidQLM5OETFoY9cBgUK', 'rmchCVkIe1CLzCUea0RoghktbGvYuByI', NULL, NULL, NULL, '103.107.244.18', 1576803898, 1576803898, 0, NULL),
+(47, 'NwNQaVGx', 'ZuXXjrks@burpcollaborator.net', '$2y$10$QuB7uqtCCmOhRcLTFWTTX.52v7FVlcr.MUWW1Cgf7chYDLAXiq0E2', 'm-AqerSOJMWCt4YVQm9xzifnVgAJVObS', NULL, NULL, NULL, '103.107.244.18', 1576803898, 1576803898, 0, NULL),
+(48, 'NCEyexrA', 'WwlEHKMF@burpcollaborator.net', '$2y$10$4hLdPgGsRFxu61SnH4jgYOJv6hmXwNpHoVv8Pma3c0xJiAKAeoVs.', '3VtyJ4dQNXZkJ8AJVj5IfcmTurZptgFs', NULL, NULL, NULL, '103.107.244.18', 1576803909, 1576803909, 0, NULL),
+(49, 'bzMvxeEj', 'NmzbcDuD@burpcollaborator.net', '$2y$10$.ymhFTZFo8mgVCaddKAPs.v7D3oyfNxpmq.4pbpGnFYrB6In71YFK', 'Jseof2qqOHbZdgyC2UY5LS9hiyvmyn2L', NULL, NULL, NULL, '103.107.244.18', 1576803909, 1576803909, 0, NULL),
+(50, 'ncjiBzNE', 'crbxEaWQ@burpcollaborator.net', '$2y$10$joPflXbnw0aDRgoxiPsR7.wiPXb55G.Mn04U7rB4ShwmsPe8Bbxz.', '3u3tYYZ9fiuTw32Xo7oJH1y7Xh2jBhVG', NULL, NULL, NULL, '103.107.244.18', 1576803916, 1576803916, 0, NULL),
+(51, 'ljMOyTLZ', 'YaiZueTJ@burpcollaborator.net', '$2y$10$nW/qPrbxG2IF2vHRr88eoO7k5thUaldtfQI/rdIDvmvXBm58oF73C', '9YU3QPvIq1x7VF0yRrD-KqKeWxS1u_VA', NULL, NULL, NULL, '103.107.244.18', 1576803916, 1576803916, 0, NULL),
+(52, 'umNVotqs', 'ilUjpSWi@burpcollaborator.net', '$2y$10$pgLU.G2iYOQg2St3TLsD6uMzKhD0FzCS0vxmgaCdhqUmuEQ48KJV.', '1ZwKT08IMwgW4KTklr-cgKkIx237HFCw', NULL, NULL, NULL, '103.107.244.18', 1576803924, 1576803924, 0, NULL),
+(53, 'lPgordMN', 'bKoMdUfJ@burpcollaborator.net', '$2y$10$GOTIgcCRjyS5FZc0SK4Sz.ElfCeLL95rbqI6oE7zmn1y/oVWGBqdS', 'HFST5PvL2AkBWqJ1uEfonegK8aCbjzJg', NULL, NULL, NULL, '103.107.244.18', 1576803924, 1576803924, 0, NULL),
+(54, 'QOnLXpav', 'FQkIyNuX@burpcollaborator.net', '$2y$10$pKqIvqcRteWYnYDDRT2wxucm1qgbNlZZ/4ttANkgX23.q/1Uqfw5S', 'wqWPY9s_rw_zCkWnOKGI0mR5mYZnyDew', NULL, NULL, NULL, '103.107.244.18', 1576803931, 1576803931, 0, NULL),
+(56, 'mGNFcuvI', 'BdXrvfOR@burpcollaborator.net', '$2y$10$ZyGf9WmXGfzNMMj0OmrTMONh8GgbgKtUJ27T8KctdY7khBMblbNl2', '1YhlC-xM-RQXH0_fJaY2gXZw5QDPXsPf', NULL, NULL, NULL, '103.107.244.18', 1576803936, 1576803936, 0, NULL),
+(58, 'LHSxQeuA', 'GylvTamP@burpcollaborator.net', '$2y$10$G3ShmFLwSCieJk269JJt3OHMYiYZJ5uebR7F3hPVJfJn.mSAAzMly', 'r-R5IPKxcLETxhoFxh4R863zklTtMIOU', NULL, NULL, NULL, '103.107.244.18', 1576803936, 1576803936, 0, NULL),
+(60, 'ValLNlDy', 'ValLNlDy@burpcollaborator.net', '$2y$10$yaS5XJjwNlye4ibf1/xRwOv.uFSGM82A5wi1iWIjgk8GvFi9JDSB6', 'CG6D3y_UYregTgRQM6WKO-yP32bUqp2b', NULL, NULL, NULL, '103.107.244.18', 1576803986, 1576803986, 0, NULL),
+(61, 'VgwCmwBd', 'VgwCmwBd@burpcollaborator.net', '$2y$10$XosmiTzMy8Eiirub1I2ph.V6AOvHdj6pA44trHSg0/HLAvzJJ83pa', 'BQh_yzmh92ZpNvAN3G5SGOw44c4vFWXj', NULL, NULL, NULL, '103.107.244.18', 1576803991, 1576803991, 0, NULL),
+(62, 'mxTneSsz', 'mxTneSsz@burpcollaborator.net', '$2y$10$35wrZrkMJuj.pxwHqKzi/.1pAIuukqsi.IiKLBpDW9YzcwIo9d4Ye', '72dt3lMa69bQM3WgdBp3Jf-F3X6_FdJw', NULL, NULL, NULL, '103.107.244.18', 1576803995, 1576803995, 0, NULL),
+(63, 'HiZByLAw', 'HiZByLAw@burpcollaborator.net', '$2y$10$OknhONQrf.eRuBSvugbpMe0QRgT/j0OToNo1W72Pnjf6CkGtBh2FO', 'wRbd5aJybung3uh8NLvfaYKkznIvLhDD', NULL, NULL, NULL, '103.107.244.18', 1576803999, 1576803999, 0, NULL),
+(64, 'aLEjphhQ', 'UJYixQhJ@burpcollaborator.net', '$2y$10$vI5QntT4s9ibBxKFowX/Wu.jUhIPKGwOQq5/FzMuZLBcMx32s6Diy', 'PciWKg5D7kRPclUYjei4urmtySAUyvqk', NULL, NULL, NULL, '103.107.244.18', 1576804136, 1576804136, 0, NULL),
+(66, 'EJDHOgon', 'KnGdjXVK@burpcollaborator.net', '$2y$10$JZ/bB3m1zi0W1g.9c6E/.O96zzrFdB8JFxbTQ8EbEywLXOcJSlidy', 'SQKr6v_cQhzm5ekLnYrrSfG2K4ixVjl9', NULL, NULL, NULL, '103.107.244.18', 1576804136, 1576804136, 0, NULL),
+(69, 'hvFfpqCY', 'qHjGFPng@burpcollaborator.net', '$2y$10$m3JhGBw92VVAQwFa1G6FUullDQg3P6.OJEYPhEVEcPGU0t9JB9ycq', 'nJyn97TWToLHCfq7NUS3eekRkbhTMXwR', NULL, NULL, NULL, '103.107.244.18', 1576809066, 1576809066, 0, NULL),
+(70, 'LOhHUFHz', 'wNQEYhRl@burpcollaborator.net', '$2y$10$xbqCR68uG.56mJ7QSLWQKepDFV3AlGesd6hECz1nZ4r2tUQJgv2Du', 'h1UNPclIrPiiqgsfUxOH_S7hoLt9aEoe', NULL, NULL, NULL, '103.107.244.18', 1576809066, 1576809066, 0, NULL),
+(71, 'eSExoEDa', 'ZigDapcp@burpcollaborator.net', '$2y$10$rAI0a2q0Hd1Q0AYQSFRN8e.hhDNtLIf8eMAMUlwEsFGewSBZ0osqO', 'nvGQioVZVZQ17d5C1QZhmvzsJBlCfcFO', NULL, NULL, NULL, '103.9.227.66', 1576811128, 1576811128, 0, NULL),
+(72, 'hATStNGv', 'ycqElCnf@burpcollaborator.net', '$2y$10$0vK78b29MPj9JzNauKOg0e4Ed6SyNugJ1XcrrvuJ0WQT8moKDe2PO', 'It8Po29hQQOVd3QjK8VuYTOnI4xHafQE', NULL, NULL, NULL, '103.9.227.66', 1576811128, 1576811128, 0, NULL),
+(73, 'TLxlwGwT', 'TTHellkM@burpcollaborator.net', '$2y$10$0LG60OMdqymoPx67MPtbD.XLMqCZ9lA/8hAFIH9pLo84DjOBTI3b.', 'OACVYDl5EZe2p_LPF0cijtcs30wNYsUq', NULL, NULL, NULL, '103.9.227.66', 1576811153, 1576811153, 0, NULL),
+(74, 'FkhVQcZo', 'LhQifZZI@burpcollaborator.net', '$2y$10$od9tjsJ2uHlNZBVwhYlD7OD5KqSmYOhzGCdcdJq0SZKTWzWxg3eay', 'n8kYJfnR6gvZIF49q18Z-KmDgZLeTfGj', NULL, NULL, NULL, '103.9.227.66', 1576811155, 1576811155, 0, NULL),
+(75, 'KlqoUQle', 'KInbwyiW@burpcollaborator.net', '$2y$10$H/K4digsUElkVwFl3YbIvuB7LuIeLZ.SDj8sjfpIYIYmrEL1XH9ja', 'FFgIB9SNDche1TGA6ZqcdZHYf_sSMGKZ', NULL, NULL, NULL, '103.9.227.66', 1576811163, 1576811163, 0, NULL),
+(76, 'OdoVFjtI', 'dFiAvVzg@burpcollaborator.net', '$2y$10$vNRjJ/h5TYoz0ADNf/8ANeVQ7TV.bTOsmjNg86hq.KgzGn.lbWipe', 't4YGLROryfeMtCdRfuv1kx0R7f6EDSaw', NULL, NULL, NULL, '103.9.227.66', 1576811183, 1576811183, 0, NULL),
+(77, 'vekhVqeT', 'JFmwKPXZ@burpcollaborator.net', '$2y$10$jDv37y9SGFA5W04eu7ojC.mEBcu4joSz4r5LAID6sBI/0WZKc/PKG', '5cF13RNNC4Uvzexc7A7RdLgagWjsOF4A', NULL, NULL, NULL, '103.9.227.66', 1576811188, 1576811188, 0, NULL),
+(78, 'rHnxzOml', 'QKEUThDd@burpcollaborator.net', '$2y$10$Z8rxlgsVNvEbGMKXvwHueuTg4NMf6Hzd.HRGRLYSdr7..wK4xzKuq', 'v0mYLRr5F9008j6xKm6qdaJOnS7HKi94', NULL, NULL, NULL, '103.9.227.66', 1576811190, 1576811190, 0, NULL),
+(79, 'ZEEawLqu', 'PWczALwe@burpcollaborator.net', '$2y$10$RN2UHgO7Z0HJFPlTCAkaH.KkPS9.tMcUdK8i/f/kITR6n6saKMyN6', 'wOjQ-7SZMcmnUbIlIWpfB0dIiU9apK0Q', NULL, NULL, NULL, '103.9.227.66', 1576811208, 1576811208, 0, NULL),
+(80, 'JrgoihFF', 'nQztZCjB@burpcollaborator.net', '$2y$10$ezMWU7M41gAKuVn6Ip3LKe.UxR3bL8HTrpQHDe6umv.DhoOCpalRi', 'uoepW2pv1pOXeRf9p3do7C7i2TNqJGSW', NULL, NULL, NULL, '103.9.227.66', 1576811219, 1576811219, 0, NULL),
+(81, 'XEOFbGmV', 'QivnoBOS@burpcollaborator.net', '$2y$10$oZA3.KBLoxXeB0lVMlIS2e2nRl9r5dd2O0btMdkSjRkKvjx7/VTcS', 'yV6Lqu5MsZc-9MSyfM7o9qGfF2U7I9nl', NULL, NULL, NULL, '103.9.227.66', 1576811225, 1576811225, 0, NULL),
+(82, 'aIEDWAWp', 'qvDkjmrf@burpcollaborator.net', '$2y$10$ITEmoKQkhGtG0zh9wox4P.lyQjZXV8cisDqoA.vwgR/pO0bQH3za2', '1v-dreNYzQi-QVyDeBP-p7FxV6OXtlS8', NULL, NULL, NULL, '103.9.227.66', 1576811232, 1576811232, 0, NULL),
+(83, 'BANNkNku', 'WIggwETg@burpcollaborator.net', '$2y$10$a4WS7tU68FGBvcOhwNdk7ON7sgK0uM0Z4c561ia0mM1BQUnhTf/RK', 'Ibvexjz2o9wb_4dd8AAR9AgYjZvf9q7Z', NULL, NULL, NULL, '103.9.227.66', 1576811257, 1576811257, 0, NULL),
+(84, 'LiDlDtBF', 'AoiCupkI@burpcollaborator.net', '$2y$10$qYqM8rdr4/A/UoysdNWYHO6iYjoZ5uX4jq1bWfZ0rtAhvkEbc4IT2', '9_HqmxYqw8PvRm7tD58On9qeO5q707GI', NULL, NULL, NULL, '103.9.227.66', 1576811280, 1576811280, 0, NULL),
+(85, 'TKivWxNa', 'EUObffUa@burpcollaborator.net', '$2y$10$.Dtqko89ItSihH1TGqvw7OfEJYL7WjxP/ihLiNnq3GsgUJOMPiA1C', 'CZ2gdEKo10Fz-8Mtoqw17itz7gKMTVCn', NULL, NULL, NULL, '103.9.227.66', 1576811285, 1576811285, 0, NULL),
+(86, 'ndMnUpgy', 'iSmciNxt@burpcollaborator.net', '$2y$10$fWdeVqay2VJ/aWc7AMB19OBtOinogvStdj0UuN8brcnt4xF/0Xr0K', 'ey8AYK6dkNVfS-Qr_g63pvSwwjBFwvNU', NULL, NULL, NULL, '103.9.227.66', 1576811290, 1576811290, 0, NULL),
+(87, 'SIIQuNcd', 'tYUrDUXf@burpcollaborator.net', '$2y$10$NRhNErx4h/RhHpaxhNephOL5Kww22dmI4xb4ORdBtx2nLn2uP9Pk6', 'W-cZFGjPzQsCqqLr3aBkv_gU-rDsLaYh', NULL, NULL, NULL, '103.9.227.66', 1576811294, 1576811294, 0, NULL),
+(88, 'PHaWUKmQ', 'WyujZihC@burpcollaborator.net', '$2y$10$ThZ5XibrnmpwuAoZHyXdreyASUlo6SDAwFUzHA9XOB5mQZB043TKa', 'BGq3bdXUNdortAeBUAeCWcaA6MZEojFl', NULL, NULL, NULL, '103.9.227.66', 1576811304, 1576811304, 0, NULL),
+(89, 'vYAkEHYx', 'wtsgXtwT@burpcollaborator.net', '$2y$10$8JcJ.HJtGZrO02x8MKf8l.J4Iyf9NG.BgjOyoiG5IuX1QEvwXkk4W', '2pJgIEgmg09QQIdwjBE7uOYFKtc8d_rl', NULL, NULL, NULL, '103.9.227.66', 1576811308, 1576811308, 0, NULL),
+(90, 'bbtQMkYA', 'tvgYpblv@burpcollaborator.net', '$2y$10$quC1Esl3byk9lQ/ZyTRhEu13.LNHVK3wE1wHi6NA0RSuAW.7RLfVS', 'XyIVGy2TdvbK-mHvUMGNVRdfpS9u_SGS', NULL, NULL, NULL, '103.9.227.66', 1576811309, 1576811309, 0, NULL),
+(91, 'QCSneGfD', 'PquUczEj@burpcollaborator.net', '$2y$10$/Pa9QtPYmLNvOLtrtyJo6eRebrrKOBGcRwNsGq7OrXdEKYNyOYy1q', 'DPU5rb3XJ-5EDNFYWq9S1RC28xCyUKRv', NULL, NULL, NULL, '103.9.227.66', 1576811319, 1576811319, 0, NULL),
+(92, 'beImZIHC', 'FIeLaIkY@burpcollaborator.net', '$2y$10$iB997fCcos4JlmfYzCCwo.AtVOBfx14UwSf0UcTiSnbFwrsImhHfO', 'oy-AjnNRJte_9KN2kglaXfak-vBj5m0F', NULL, NULL, NULL, '103.9.227.66', 1576811321, 1576811321, 0, NULL),
+(93, 'hFgkRsmk', 'dLSKJJqg@burpcollaborator.net', '$2y$10$Wau1HrMrXCsq68hNl.457.ZjK5QZF1WTtaOH98ZmcSVacTN7YuMu6', 'nf8kNxTN5AOGQzObxoMkvCx_VKEk4CC4', NULL, NULL, NULL, '103.9.227.66', 1576811342, 1576811342, 0, NULL),
+(94, 'yMJDpwcd', 'WKcCtQnf@burpcollaborator.net', '$2y$10$OXgiOqfdapYxGoMxtVlwMu.QFX1TnrSV5fyDCTArrzza/IkypGAXu', 'dDM1d1IGidmQ4OFALdrb7E_Y3PZF8lOS', NULL, NULL, NULL, '103.9.227.66', 1576811352, 1576811352, 0, NULL),
+(95, 'OlQfJQTS', 'rkwGaUGy@burpcollaborator.net', '$2y$10$2Em47mTRVHTxB/AKR9yjmO6BJhJRTcHg03ar94ruyBTdJly5AXTRW', 'iUB5AouM4VpilOpN64auRFMVXIdcVbAC', NULL, NULL, NULL, '103.9.227.66', 1576811358, 1576811358, 0, NULL),
+(96, 'cwpgBSLx', 'FaZFnNRm@burpcollaborator.net', '$2y$10$foKlRsT1JujRgM2LlrAMfeZzJo7Qa84hhvm9luu14KiDWBNwAAHyG', 'bhSKbn_ww8pQCfqoAZZrbZAKeN3Ac8aj', NULL, NULL, NULL, '103.9.227.66', 1576811367, 1576811367, 0, NULL),
+(97, 'SiiElthF', 'DVTbTbBP@burpcollaborator.net', '$2y$10$sH1Xz.Ya4EGsjLrhC2YczeeirBCHVVcVeJzZuMV1euevgflYOuNam', 'M8OBAqVKDMYOxjFNU6DJrbj5AUqf9zGO', NULL, NULL, NULL, '103.9.227.66', 1576811367, 1576811367, 0, NULL),
+(98, 'mbiFkWTP', 'rPDltxAG@burpcollaborator.net', '$2y$10$XUsKhgYe86NsOyiVoiBwz.F2bEj.MFB1V.2AuSV6Bzm1hy6ywedrW', 'GyTQLKERxF63fq3WTo96E69SrwtlA9fE', NULL, NULL, NULL, '103.9.227.66', 1576811383, 1576811383, 0, NULL),
+(99, 'CCbPdGIU', 'ZKrNFsWB@burpcollaborator.net', '$2y$10$/iOpNSjnFUEDaaS5bSUl1uaTyxpNjh.kRRY4TpkwCFzApbPpB51gi', 'w9fdgyPISVmXe2_3zK1JqcZqgsN_ispa', NULL, NULL, NULL, '103.9.227.66', 1576811395, 1576811395, 0, NULL),
+(100, 'TNSMFSvu', 'sSLqkEkf@burpcollaborator.net', '$2y$10$o5D3wanRTS3HOFFBEoO8L.zYdAKju1GJAt9lWdC0Fq1oLVqDq9Bu.', 'Q5f0b_H8hq_mjygFM3tJgDt-Dr_J_Mcs', NULL, NULL, NULL, '103.107.244.18', 1576814436, 1576814436, 0, NULL),
+(101, 'mTvHbEvZ', 'iAALPrZN@burpcollaborator.net', '$2y$10$ntOQ472N2eGKRgHuJ2jWV.j97lyxdZVq1UiRt1ufUXHDlOdL6qy7S', '8TfZQer30GIsTviwYx56BJXrtA6G2iv3', NULL, NULL, NULL, '103.107.244.18', 1576814437, 1576814437, 0, NULL),
+(102, 'yiCfTEjJ', 'vPBIxLfl@burpcollaborator.net', '$2y$10$qgpgqQM.7YSAlxka9HdMRuuSo32RB4QLzBxx2p9L4vc6nkKyLOcuW', 'qvZQjad5CK2O_VryxDk4TrXxO4JiwQAb', NULL, NULL, NULL, '103.107.244.18', 1576814452, 1576814452, 0, NULL),
+(103, 'member', 'member@gmail.com', '$2y$10$rg.hG8zL5vw.Mi.4nPEDGeKildAjpWHhbWwZzy5v3npEmSl7NZOSO', '5zF6i7PnbD2ZVK-ogTUXUP6qpO4d0MqO', 1580634807, NULL, NULL, '36.79.47.223', 1580634807, 1580634807, 0, 1580634870),
+(104, 'lecture', 'lecture@gmail.com', '$2y$10$EdX4YU.GgcZKncmMF1NulurSQTY0zRIA0Gidk52f.6KLjp9jEqKsG', 'GBJpjXpdqmzbWSTb4EXpR28T_Jm9eIkW', 1580634904, NULL, NULL, '36.79.47.223', 1580634904, 1580634904, 0, 1580634911);
 
 --
 -- Indexes for dumped tables
@@ -841,13 +1073,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `course_lecture`
 --
 ALTER TABLE `course_lecture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `enroled_course`
@@ -859,13 +1091,13 @@ ALTER TABLE `enroled_course`
 -- AUTO_INCREMENT for table `institution`
 --
 ALTER TABLE `institution`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `institution_instructor`
 --
 ALTER TABLE `institution_instructor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -883,7 +1115,7 @@ ALTER TABLE `quiz_category`
 -- AUTO_INCREMENT for table `quiz_question`
 --
 ALTER TABLE `quiz_question`
-  MODIFY `key` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `key` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `response_course`
@@ -901,13 +1133,13 @@ ALTER TABLE `social_account`
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- Constraints for dumped tables
