@@ -16,10 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Create Course'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Absen Member'), ['member/absensi'], ['class' => 'btn btn-primary']) ?>
     </p>
+    =
+
+
 
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -30,12 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             // 'title',
             [
-                'label'=>'Title',
-                'attribute'=>'title',
-                'format'=> 'raw',
-                'value' => function($model){
-                    return Html::a($model->title,['course/view-member','id'=>$model->id]);
-
+                'label' => 'Title',
+                'attribute' => 'title',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['course/view-member', 'id' => $model->id]);
                 }
             ],
             'about:ntext',
