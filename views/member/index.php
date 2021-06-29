@@ -29,6 +29,8 @@ foreach ($members as $member) {
         ['member/delete', 'id' => $member->id],
         ['onclick' => 'return (confirm("Apakah data mau dihapus?")?true:false);']
     );
+    echo Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['member/update', 'id'
+    => $member->id]);
     echo "</td>";
     echo "</tr>";
 }
